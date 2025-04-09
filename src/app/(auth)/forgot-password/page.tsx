@@ -19,12 +19,12 @@ export default function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
-    }
+    },
   });
   
   const onSubmit = async (data: ForgotPasswordFormValues) => {
@@ -34,43 +34,16 @@ export default function ForgotPasswordPage() {
       console.log(data);
       // Will use API call here
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      
       setIsSubmitted(true);
     } catch (error) {
-      console.error("Password reset request failed:", error);
+      console.error("Forgot password request failed:", error);
     } finally {
       setIsLoading(false);
     }
   };
   
-  if (isSubmitted) {
-    return (
-      <div className="space-y-6 py-8 text-center">
-        <div className="flex justify-center mb-2">
-          <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-green-500/20">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight">Check your email</h2>
-        <p className="text-gray-400 max-w-md mx-auto">
-          We have sent a password reset link to your email address. Please check your inbox and follow the instructions.
-        </p>
-        <div className="pt-4">
-          <Link 
-            href="/login" 
-            className="font-medium text-white hover:underline"
-          >
-            Return to login
-          </Link>
-        </div>
-      </div>
-    );
-  }
-  
   return (
-    <div className="space-y-6 py-8">
+    <div className="flex flex-col items-center justify-center py-8">
       <div className="flex justify-center mb-2">
         <div className="w-10 h-10 flex items-center justify-center">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,42 +54,72 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
 
-      <div className="text-center mb-2">
-        <h1 className="text-3xl font-bold tracking-tight">Reset password</h1>
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold tracking-tight">Reset your password</h1>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-300">
-            Email
-          </label>
-          <input
-            {...register("email")}
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            className="w-full px-3 py-2.5 rounded-md border border-gray-700 bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
-        </div>
+      <div className="w-full max-w-sm bg-[#0c0c0c]/80 border border-gray-800 rounded-2xl backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
         
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full py-2.5 font-medium rounded-md transition-colors uppercase text-sm tracking-wide bg-gradient-to-r from-gray-300 to-rose-300 hover:from-gray-200 hover:to-rose-200 text-black disabled:opacity-70"
-        >
-          {isLoading ? "Sending..." : "Reset password"}
-        </button>
-      </form>
+        {isSubmitted ? (
+          <div className="flex flex-col items-center justify-center space-y-4 py-4 relative z-10">
+            <div className="bg-emerald-900/30 rounded-full p-3">
+              <svg className="w-8 h-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 6L9 17L4 12" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-medium text-white">Check your email</h3>
+            <p className="text-gray-400 text-center text-sm">
+              We&apos;ve sent you a password reset link. Please check your inbox.
+            </p>
+            <div className="w-full pt-4">
+              <Link 
+                href="/login"
+                className="w-full block text-center py-3.5 font-medium rounded-xl transition-colors uppercase text-sm tracking-wide bg-gradient-to-r from-gray-200 via-rose-200 to-amber-200 hover:from-gray-100 hover:via-rose-100 hover:to-amber-100 text-black mt-2 shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
+              >
+                BACK TO LOGIN
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 relative z-10">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-300">
+                Email address
+              </label>
+              <div className="bg-[#111111] border border-gray-800 rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.2)] relative">
+                <input
+                  {...register("email")}
+                  type="email"
+                  id="email"
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3.5 bg-transparent text-white placeholder:text-gray-600 focus:outline-none z-10 relative"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
+              </div>
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              )}
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 font-medium rounded-xl transition-colors uppercase text-sm tracking-wide bg-gradient-to-r from-gray-200 via-rose-200 to-amber-200 hover:from-gray-100 hover:via-rose-100 hover:to-amber-100 text-black disabled:opacity-70 mt-2 shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
+            >
+              {isLoading ? "Sending link..." : "RESET PASSWORD"}
+            </button>
+          </form>
+        )}
+      </div>
       
-      <p className="text-sm text-center">
+      <p className="text-sm text-center text-gray-500 mt-6">
+        Remember your password?{" "}
         <Link 
           href="/login" 
           className="font-medium text-white hover:underline"
         >
-          Return to login
+          Sign in
         </Link>
       </p>
     </div>
