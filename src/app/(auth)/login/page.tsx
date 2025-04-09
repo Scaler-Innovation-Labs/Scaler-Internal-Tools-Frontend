@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Image from "next/image";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -46,13 +47,23 @@ export default function LoginPage() {
   
   return (
     <div className="space-y-6 py-8">
-      <div>
+      <div className="flex justify-center mb-2">
+        <div className="w-10 h-10 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 7H7C4.23858 7 2 9.23858 2 12C2 14.7614 4.23858 17 7 17H17C19.7614 17 22 14.7614 22 12C22 9.23858 19.7614 7 17 7Z" stroke="white" strokeWidth="2"/>
+            <path d="M17 7H7C4.23858 7 2 9.23858 2 12C2 14.7614 4.23858 17 7 17H17C19.7614 17 22 14.7614 22 12C22 9.23858 19.7614 7 17 7Z" stroke="white" strokeWidth="2"/>
+            <path d="M17 7C19.7614 7 22 9.23858 22 12C22 14.7614 19.7614 17 17 17C14.2386 17 12 14.7614 12 12C12 9.23858 14.2386 7 17 7Z" fill="white"/>
+          </svg>
+        </div>
+      </div>
+
+      <div className="text-center mb-2">
         <h1 className="text-3xl font-bold tracking-tight">Sign in to Scaler</h1>
       </div>
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">
+          <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-300">
             Email
           </label>
           <input
@@ -60,7 +71,7 @@ export default function LoginPage() {
             type="email"
             id="email"
             placeholder="you@example.com"
-            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600"
+            className="w-full px-3 py-2.5 rounded-md border border-gray-700 bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -69,12 +80,12 @@ export default function LoginPage() {
         
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="password" className="text-sm font-medium text-gray-300">
               Password
             </label>
             <Link 
               href="/forgot-password" 
-              className="text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              className="text-sm font-medium text-gray-400 hover:text-gray-300"
             >
               Forgot password?
             </Link>
@@ -84,7 +95,7 @@ export default function LoginPage() {
             type="password"
             id="password"
             placeholder="••••••••"
-            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600"
+            className="w-full px-3 py-2.5 rounded-md border border-gray-700 bg-gray-900/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
           />
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
@@ -94,7 +105,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2 bg-black dark:bg-white text-white dark:text-black font-medium rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+          className="w-full py-2.5 font-medium rounded-md transition-colors uppercase text-sm tracking-wide bg-gradient-to-r from-gray-300 to-rose-300 hover:from-gray-200 hover:to-rose-200 text-black disabled:opacity-70"
         >
           {isLoading ? "Signing in..." : "Log in"}
         </button>
@@ -102,17 +113,17 @@ export default function LoginPage() {
       
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+          <div className="w-full border-t border-gray-700"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white dark:bg-black text-gray-500">Or</span>
+          <span className="px-2 bg-black text-gray-500">OR</span>
         </div>
       </div>
       
       <div className="space-y-3">
         <button 
           type="button" 
-          className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 dark:border-gray-700 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-700 rounded-md font-medium text-gray-300 hover:bg-gray-900 transition-colors"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335"/>
@@ -125,7 +136,7 @@ export default function LoginPage() {
         
         <button 
           type="button" 
-          className="w-full flex items-center justify-center gap-2 py-2 border border-gray-300 dark:border-gray-700 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-700 rounded-md font-medium text-gray-300 hover:bg-gray-900 transition-colors"
         >
           <svg className="h-5 w-5" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217C0 70.973 13.993 89.389 33.405 95.907C35.832 96.397 36.721 94.848 36.721 93.545C36.721 92.371 36.654 88.728 36.654 84.613C23.064 87.541 20.171 78.586 20.171 78.586C17.943 72.894 14.726 71.344 14.726 71.344C10.314 68.293 15.059 68.293 15.059 68.293C19.937 68.539 22.499 73.376 22.499 73.376C26.844 80.855 33.873 78.832 36.853 77.528C37.316 74.356 38.6 72.209 39.994 71.083C29.138 70.028 17.736 65.79 17.736 46.904C17.736 41.521 19.64 37.161 22.566 33.777C22.036 32.547 20.37 27.51 23 20.65C23 20.65 27.079 19.347 36.654 25.78C40.546 24.723 44.704 24.195 48.862 24.195C53.02 24.195 57.178 24.723 61.07 25.78C70.644 19.347 74.723 20.65 74.723 20.65C77.353 27.51 75.688 32.547 75.157 33.777C78.15 37.161 79.987 41.521 79.987 46.904C79.987 65.79 68.585 69.96 57.73 71.015C59.54 72.396 61.087 75.033 61.087 79.188C61.087 85.127 61.02 91.909 61.02 93.545C61.02 94.848 61.909 96.397 64.336 95.907C83.747 89.389 97.74 70.973 97.74 49.217C97.74 22 75.835 0 48.854 0Z" fill="currentColor"/>
@@ -134,11 +145,11 @@ export default function LoginPage() {
         </button>
       </div>
       
-      <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+      <p className="text-sm text-center text-gray-500">
         Don&apos;t have an account?{" "}
         <Link 
           href="/signup" 
-          className="font-medium text-black dark:text-white hover:underline"
+          className="font-medium text-white hover:underline"
         >
           Sign up
         </Link>
