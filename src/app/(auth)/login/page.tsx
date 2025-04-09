@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -68,24 +67,14 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 relative z-10">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-300">
-              Email address
-            </label>
-            <div className="bg-[#111111] border border-gray-800 rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.2)] relative">
-              <input
-                {...register("email")}
-                type="email"
-                id="email"
-                placeholder="you@example.com"
-                className="w-full px-4 py-3.5 bg-transparent text-white placeholder:text-gray-600 focus:outline-none z-10 relative"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
-            </div>
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
-          </div>
+          <Input
+            {...register("email")}
+            id="email"
+            type="email"
+            label="Email address"
+            placeholder="you@example.com"
+            error={errors.email?.message}
+          />
           
           <div>
             <div className="flex items-center justify-between mb-1.5">
@@ -99,37 +88,32 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-            <div className="bg-[#111111] border border-gray-800 rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.2)] relative">
-              <input
-                {...register("password")}
-                type="password"
-                id="password"
-                placeholder="••••••••"
-                className="w-full px-4 py-3.5 bg-transparent text-white placeholder:text-gray-600 focus:outline-none z-10 relative"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-            )}
+            <Input
+              {...register("password")}
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              error={errors.password?.message}
+            />
           </div>
           
-          <button
+          <Button
             type="submit"
-            disabled={isLoading}
-            className="w-full py-3.5 font-medium rounded-xl transition-colors uppercase text-sm tracking-wide bg-gradient-to-r from-gray-200 via-rose-200 to-amber-200 hover:from-gray-100 hover:via-rose-100 hover:to-amber-100 text-black disabled:opacity-70 mt-2 shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
+            fullWidth
+            isLoading={isLoading}
           >
             {isLoading ? "Signing in..." : "SIGN IN"}
-          </button>
+          </Button>
           
           <div className="relative flex items-center justify-center mt-2 mb-2">
             <div className="absolute border-t border-gray-800 w-full"></div>
             <div className="relative bg-[#0c0c0c] px-2 text-xs text-gray-500">OR</div>
           </div>
           
-          <button
+          <Button
             type="button"
-            className="w-full py-3.5 font-medium rounded-xl transition-colors flex items-center justify-center border border-gray-800 bg-[#111111] hover:bg-gray-900 text-white text-sm mt-2 shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
+            variant="secondary"
+            fullWidth
           >
             <svg className="mr-2 h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
               <path
@@ -150,7 +134,7 @@ export default function LoginPage() {
               />
             </svg>
             Continue with Google
-          </button>
+          </Button>
         </form>
       </div>
       
