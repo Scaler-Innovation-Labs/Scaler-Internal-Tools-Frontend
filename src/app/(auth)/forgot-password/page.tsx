@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft } from "lucide-react";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -46,22 +45,22 @@ export default function ForgotPasswordPage() {
   
   if (isSubmitted) {
     return (
-      <div className="space-y-6 text-center">
+      <div className="space-y-6 py-8 text-center">
         <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-600 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold">Check your email</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Check your email</h2>
         <p className="text-gray-600 dark:text-gray-400">
           We have sent a password reset link to your email address. Please check your inbox and follow the instructions.
         </p>
         <div className="pt-4">
           <Link 
             href="/login" 
-            className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center justify-center gap-2"
+            className="font-medium text-black dark:text-white hover:underline"
           >
-            <ArrowLeft className="h-4 w-4" /> Back to login
+            Return to login
           </Link>
         </div>
       </div>
@@ -69,17 +68,14 @@ export default function ForgotPasswordPage() {
   }
   
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold">Reset your password</h1>
-        <p className="text-gray-500 mt-2">
-          Enter your email address and we&apos;ll send you a link to reset your password.
-        </p>
+    <div className="space-y-6 py-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Reset password</h1>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1.5">
+          <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">
             Email
           </label>
           <input
@@ -87,7 +83,7 @@ export default function ForgotPasswordPage() {
             type="email"
             id="email"
             placeholder="you@example.com"
-            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -97,20 +93,20 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2.5 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-2 bg-black dark:bg-white text-white dark:text-black font-medium rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
         >
-          {isLoading ? "Sending..." : "Send reset link"}
+          {isLoading ? "Sending..." : "Reset password"}
         </button>
       </form>
       
-      <div className="text-center">
+      <p className="text-sm text-center">
         <Link 
           href="/login" 
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 flex items-center justify-center gap-2"
+          className="font-medium text-black dark:text-white hover:underline"
         >
-          <ArrowLeft className="h-4 w-4" /> Back to login
+          Return to login
         </Link>
-      </div>
+      </p>
     </div>
   );
 } 
