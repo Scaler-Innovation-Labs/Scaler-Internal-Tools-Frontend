@@ -1,79 +1,101 @@
+"use client";
+
+import { useTheme } from "next-themes";
 import { Users, BookOpen, Calendar, GraduationCap } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const stats = [
   {
     title: "Total Students",
     value: "1,234",
     icon: Users,
-    description: "+12% from last month",
+    change: "+12% from last month",
   },
   {
     title: "Active Courses",
     value: "24",
     icon: BookOpen,
-    description: "+4 new courses this month",
+    change: "+4 new courses this month",
   },
   {
     title: "Upcoming Classes",
     value: "48",
     icon: Calendar,
-    description: "Next class in 2 hours",
+    change: "Next class in 2 hours",
   },
   {
     title: "Graduation Rate",
     value: "98%",
     icon: GraduationCap,
-    description: "+2% from last year",
+    change: "+2% from last year",
   },
 ];
 
 export default function DashboardPage() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
-    <div className="flex-1 space-y-4 p-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <div className="flex items-center space-x-4">
-          {/* Add user profile dropdown here */}
+    <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
+      <div className="p-8">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            Dashboard
+          </h1>
         </div>
-      </div>
-      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">
-                {stat.description}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat) => (
+            <div
+              key={stat.title}
+              className={`p-6 rounded-xl ${
+                isDark
+                  ? 'bg-[#111111] border border-gray-800'
+                  : 'bg-white shadow-sm'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <p className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  {stat.title}
+                </p>
+                <stat.icon className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <p className={`mt-2 text-3xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {stat.value}
               </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            {/* Add chart component here */}
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Add activity feed component here */}
-          </CardContent>
-        </Card>
+              <p className={`mt-1 text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                {stat.change}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-7 gap-6 mt-6">
+          <div className={`lg:col-span-4 p-6 rounded-xl ${
+            isDark
+              ? 'bg-[#111111] border border-gray-800'
+              : 'bg-white shadow-sm'
+          }`}>
+            <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              Overview
+            </h2>
+            <div className="h-[300px] mt-4">
+              {/* Chart will be added here */}
+            </div>
+          </div>
+
+          <div className={`lg:col-span-3 p-6 rounded-xl ${
+            isDark
+              ? 'bg-[#111111] border border-gray-800'
+              : 'bg-white shadow-sm'
+          }`}>
+            <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              Recent Activity
+            </h2>
+            <div className="mt-4">
+              {/* Activity feed will be added here */}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
