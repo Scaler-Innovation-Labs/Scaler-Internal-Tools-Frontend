@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,6 +18,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   
   const {
     register,
@@ -33,10 +35,8 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      // This will be integrated with the Spring Boot backend
-      console.log(data);
-      // Will use API call here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      // Temporary: Navigate to dashboard without authentication
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
