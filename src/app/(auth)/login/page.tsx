@@ -111,7 +111,7 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
-        <p className="text-sm text-center text-gray-500 mt-6 Frame9">
+        <p className="text-sm text-center text-white mt-6 Frame9">
           Don't have an account?{" "}
           <Link 
             href="/signup" 
