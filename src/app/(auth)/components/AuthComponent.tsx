@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { useTheme } from "next-themes";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -13,9 +14,11 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children, title = "Roll the Carpet.!", skipText = "Skip step →", skipHref = "#", blob_1_colors, blob_2_colors }: AuthLayoutProps) {
   const blob1Gradient = `linear-gradient(180deg, ${blob_1_colors[0]} 0%, ${blob_1_colors[1]} 100%)`
   const blob2Gradient = `linear-gradient(180deg, ${blob_2_colors[0]} 0%, ${blob_2_colors[1]} 100%)`
+  const { theme, setTheme } = useTheme();
+
   return (
-    <div className="flex min-h-screen w-full bg-black text-white relative overflow-hidden">
-      {/* Glowing background blobs */}
+    <div className="flex min-h-screen w-full bg-[var(--color-background)] text-[var(--text-primary)] relative overflow-hidden">
+{/* Glowing background blobs */}
       <div className="absolute pointer-events-none inset-0 z-0">
         <div
           className="absolute w-[300px] h-[300px] shrink-0 rounded-[302px] top-[8%] left-[60%]"
@@ -31,9 +34,9 @@ export default function AuthLayout({ children, title = "Roll the Carpet.!", skip
         <div className="flex flex-row items-center justify-center w-full h-full">
           {/* Left Side - Title and Skip */}
           <div className="text-center md:text-left space-y-4 w-[58%]">
-            <h2 className="text-white font-[Noto Sans] text-[96px] not-italic font-semibold leading-none">{title}</h2>
+            <h2 className="text-[var(--text-primary)] font-[Noto Sans] text-[96px] not-italic font-semibold leading-none">{title}</h2>
             <div className="flex items-center justify-center w-full">
-              <Link href={skipHref} className="inline-flex items-start gap-[10px] mx-5 px-[24px] py-[14px] border-4 border-white text-white font-noto-sans text-2xl italic font-semibold leading-normal">
+              <Link href={skipHref} className="inline-flex items-start gap-[10px] mx-5 px-[24px] py-[14px] border-4 border-[var(--border-primary)] text-[var(--text-primary)] font-noto-sans text-2xl italic font-semibold leading-normal">
                 {skipText}
               </Link>
               <div className="flex-grow h-[2px] border-t-2 border-dashed border-[#4d4d4d]"></div>
@@ -46,5 +49,6 @@ export default function AuthLayout({ children, title = "Roll the Carpet.!", skip
         </div>
       </div>
     </div>
+
   );
 }

@@ -15,7 +15,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputType = isPassword && showPassword ? "text" : type;
     
     return (
-      <div className={`${fullWidth ? "w-full" : ""}`}>
+      <div className={`${fullWidth ? "w-full bg-transparent relative" : ""}`}>
         {label && (
           <label
             htmlFor={props.id}
@@ -24,10 +24,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <div className="flex w-[300px] p-[14px_16px] items-center gap-[10px] rounded-[12px] border border-white">
+        <div className="flex w-[300px] p-[14px_16px] items-center gap-[10px] rounded-[12px] border border-[var(--foreground)]">
           <input
             ref={ref}
-            className={`w-full bg-transparent text-white placeholder:text-white focus:outline-none z-10 relative ${
+            className={`w-full bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-primary)] focus:outline-none z-10 relative ${
               isPassword ? "pr-10" : ""
             } ${className}`}
             type={inputType}
@@ -36,7 +36,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {isPassword && (
             <button
               type="button"
-              className="text-gray-400 hover:text-gray-300 z-10 h-[18px] w-[18px]"
+              className="text-[var(--text-primary)] z-10 h-[18px] w-[18px]"
               onClick={() => setShowPassword(!showPassword)}
               tabIndex={-1}
             >

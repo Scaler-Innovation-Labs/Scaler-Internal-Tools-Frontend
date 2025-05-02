@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "../components/AuthComponent";
+import { useTheme } from "next-themes";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -44,15 +45,26 @@ export default function ForgotPasswordPage() {
       setIsLoading(false);
     }
   };
+
+  const {theme, setTheme} = useTheme();
+  const isDark = theme === "dark" ? true : false;
+
+  let blob_1_colors = ['#61003A', '#FFFFFF']
+  let blob_2_colors = ['#FFFFFF', '#61003A']
+
+  if(isDark){
+    blob_1_colors = ['#61003A', '#2D0A30']
+    blob_2_colors = ['#61004B', '#220A30']
+  }
   
   return (
-    <AuthLayout title="No worries.!!" skipText="Take me back.!" skipHref="/login" blob_1_colors={['#61003A', '#2D0A30']} blob_2_colors={['#61004B', '#220A30']}>
+    <AuthLayout title="No worries.!!" skipText="Take me back.!" skipHref="/login" blob_1_colors={blob_1_colors} blob_2_colors={blob_2_colors}>
       <div className="inline-flex flex-col justify-between items-center p-[97px_40px_47px_40px] h-[80%] rounded-[20px] border border-[#AFAFAF] bg-gradient-to-[321deg] from-[#bfbfbf10] via-[#00000000] to-[#00000024] shadow-[8px_4px_5px_0px_rgba(0,0,0,0.24)] backdrop-blur-[26.5px] gap-[14px] w-[400px] Frame5">
         <div className="flex flex-col justify-between h-[75%] Frame-4">
           <div className="flex flex-col gap-[14px] Upper-Section">
             <div className="flex flex-col items-start w-full Login-Text">
-              <span className="text-white font-noto-sans text-3xl font-semibold leading-normal">Forgot Password?</span>
-              <span className="text-white font-noto-sans text-[16px] text-base leading-normal font-medium">Please enter you're email</span>
+              <span className="text-[var(--text-primary)] font-noto-sans text-3xl font-semibold leading-normal">Forgot Password?</span>
+              <span className="text-[var(--text-primary)] font-noto-sans text-[16px] text-base leading-normal font-medium">Please enter you're email</span>
             </div>
             {isSubmitted ? (
             <div className="flex flex-col items-center justify-center space-y-4 py-4 relative z-10">
@@ -61,8 +73,8 @@ export default function ForgotPasswordPage() {
                   <path d="M20 6L9 17L4 12" />
                 </svg>
               </div>
-              <h3 className="text-xl font-medium text-white">Check your email</h3>
-              <p className="text-gray-400 text-center text-sm">
+              <h3 className="text-xl font-medium text-[var(--text-primary)]">Check your email</h3>
+              <p className="text-[var(--text-primary)] text-center text-sm">
                 We've sent you a password reset link. Please check your inbox.
               </p>
               <div className="w-full pt-4">
@@ -79,7 +91,6 @@ export default function ForgotPasswordPage() {
                 {...register("email")}
                 id="email"
                 type="email"
-                label="Email address"
                 placeholder="you@example.com"
                 error={errors.email?.message}
               />
@@ -99,11 +110,11 @@ export default function ForgotPasswordPage() {
         </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-800/5 to-transparent pointer-events-none"></div>
-        <p className="text-sm text-center text-white mt-6 Frame9">
+        <p className="text-sm text-center text-[var(--text-primary)] mt-6 Frame9">
           Don't have an account?{" "}
           <Link 
             href="/signup" 
-            className="font-medium text-white hover:underline"
+            className="font-medium text-[var(--text-primary)] hover:underline"
           >
             Sign up
           </Link>
