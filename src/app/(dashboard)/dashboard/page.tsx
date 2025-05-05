@@ -1,102 +1,459 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Users, BookOpen, Calendar, GraduationCap } from "lucide-react";
+import { Search, Bell, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 
-const stats = [
+// Mock data
+const announcements: Announcement[] = [
   {
-    title: "Total Students",
-    value: "1,234",
-    icon: Users,
-    change: "+12% from last month",
+    id: 1,
+    title: "New Assignment: Data Structures Implementation",
+    message: "Hello everyone, I've posted a new assignment on Data Structures Implementation. It focuses on implementing binary trees and hash maps. Please check the attached resources and submit your work by June 25th.",
+    date: "June 15, 2023",
+    hasAttachment: true,
+    attachmentLink: "/announcements/1",
+    type: "instructor",
+    author: {
+      name: "Prof. Williams",
+      role: "Course Instructor",
+      initial: "PW",
+    },
   },
   {
-    title: "Active Courses",
-    value: "24",
-    icon: BookOpen,
-    change: "+4 new courses this month",
+    id: 2,
+    title: "Mid-term Examination Schedule",
+    message: "The mid-term examination for all courses will be held next week. Please check the attached schedule for your exam timings and venues. Make sure to bring your student ID and required stationery.",
+    date: "June 18, 2023",
+    hasAttachment: true,
+    attachmentLink: "/announcements/2",
+    type: "exam",
+    author: {
+      name: "Academic Office",
+      role: "Administration",
+      initial: "AO",
+    },
   },
   {
-    title: "Upcoming Classes",
-    value: "48",
-    icon: Calendar,
-    change: "Next class in 2 hours",
+    id: 3,
+    title: "Guest Lecture: Advanced Machine Learning",
+    message: "We're excited to announce a special guest lecture on Advanced Machine Learning by Dr. Sarah Chen from Google AI. The lecture will be held on June 28th at 3:00 PM in the Main Auditorium.",
+    date: "June 20, 2023",
+    hasAttachment: false,
+    type: "club",
+    author: {
+      name: "Events Team",
+      role: "Student Affairs",
+      initial: "ET",
+    },
+  },
+];
+
+const calendarData = {
+  month: "JULY 2021+",
+  days: [
+    { dayOfWeek: "Mo", dates: [28, 5, 12, 19, 26] },
+    { dayOfWeek: "Tu", dates: [29, 6, 13, 20, 27] },
+    { dayOfWeek: "We", dates: [30, 7, 14, 21, 28] },
+    { dayOfWeek: "Th", dates: [1, 8, 15, 22, 29] },
+    { dayOfWeek: "Fr", dates: [2, 9, 16, 23, 30] },
+    { dayOfWeek: "Sa", dates: [3, 10, 17, 24, 31] },
+    { dayOfWeek: "Su", dates: [4, 11, 18, 25, 1] },
+  ],
+  currentDay: 8,
+  highlights: [19, 13, 18, 23],
+};
+
+const progressModules = [
+  { name: "Life Contingency", chapter: 1, progress: 70 },
+  { name: "Social Insurance", chapter: 4, progress: 60 },
+  { name: "Advanced Maths", chapter: 2, progress: 40 },
+  { name: "Pension", chapter: 3, progress: 50 },
+];
+
+const upcomingActivities = [
+  { 
+    id: 8, 
+    title: "Life Contingency Tutorials", 
+    time: "Monday, June 12, 2023 • 8:00 - 9:00 AM",
+    link: "#",
+    color: "bg-blue-500"
+  },
+  { 
+    id: 13, 
+    title: "Social Insurance Test", 
+    time: "Tuesday, June 13, 2023 • 10:00 - 11:00 AM",
+    link: "#",
+    color: "bg-pink-500"
+  },
+  { 
+    id: 18, 
+    title: "Adv. Maths Assignment Due", 
+    time: "Monday, June 18, 2023 • 11:59 PM",
+    link: "#",
+    color: "bg-green-500"
+  },
+  { 
+    id: 23, 
+    title: "Dr. Ogie's Tutorial Class", 
+    time: "Friday, June 23, 2023 • 2:00 - 3:00 PM",
+    link: "#",
+    color: "bg-orange-500"
+  },
+];
+
+const messages = [
+  {
+    id: 1,
+    sender: "Mayowa Ade",
+    initial: "MA",
+    role: "Class Captain",
+    time: "10:25 am",
+    avatar: "/avatars/mayowa.jpg",
+    message: "New assignment posted..."
   },
   {
-    title: "Graduation Rate",
-    value: "98%",
-    icon: GraduationCap,
-    change: "+2% from last year",
+    id: 2,
+    sender: "Oluwuyi Tobi",
+    initial: "OT",
+    role: "Classmate",
+    time: "10:45 pm",
+    avatar: "/avatars/tobi.jpg",
+    message: "Did you check the homework yet?"
+  },
+  {
+    id: 3,
+    sender: "Joshua Adetayo",
+    initial: "JA",
+    role: "Class Rep",
+    time: "11:20 am",
+    avatar: "/avatars/joshua.jpg",
+    message: "Quiz now posted for all students"
+  },
+  {
+    id: 4,
+    sender: "Mayowa Ade",
+    initial: "MA",
+    role: "Class Captain",
+    time: "12:30 pm",
+    avatar: "/avatars/mayowa.jpg",
+    message: "Class meeting tomorrow at 3pm"
+  },
+];
+
+const topPerformers = [
+  {
+    id: 1,
+    name: "Joshua Adetayo",
+    initial: "JA",
+    score: "96%",
+    color: "bg-emerald-100 text-emerald-700",
+  },
+  {
+    id: 2,
+    name: "Adeniyi Ayo",
+    initial: "AA",
+    score: "92%",
+    color: "bg-blue-100 text-blue-700",
+  },
+  {
+    id: 3,
+    name: "Oluwuyi Tobi",
+    initial: "OT",
+    score: "88%",
+    color: "bg-orange-100 text-orange-700",
   },
 ];
 
 export default function DashboardPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-
+  
   return (
     <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
-      <div className="p-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Dashboard
-          </h1>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat) => (
-            <div
-              key={stat.title}
-              className={`p-6 rounded-xl ${
-                isDark
-                  ? 'bg-[#111111] border border-gray-800'
-                  : 'bg-white shadow-sm'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <p className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                  {stat.title}
-                </p>
-                <stat.icon className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+      <header className={`px-4 py-2 ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center">
+              <div className="flex items-center mr-2">
+                <svg className="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                  <path fill="currentColor" d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                </svg>
               </div>
-              <p className={`mt-2 text-3xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                {stat.value}
-              </p>
-              <p className={`mt-1 text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                {stat.change}
-              </p>
+              <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>SST Internals</span>
             </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-7 gap-6 mt-6">
-          <div className={`lg:col-span-4 p-6 rounded-xl ${
-            isDark
-              ? 'bg-[#111111] border border-gray-800'
-              : 'bg-white shadow-sm'
-          }`}>
-            <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Overview
-            </h2>
-            <div className="h-[300px] mt-4">
-              {/* Chart will be added here */}
+            
+            <div className={`h-5 w-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+            
+            <div className="relative w-64">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+              </div>
+              <input 
+                type="text" 
+                placeholder="Search Courses, Documents, Activities..." 
+                className={`pl-10 pr-4 py-2 w-full text-sm rounded-md ${
+                  isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-gray-50 text-gray-900 border-gray-300'
+                } border focus:outline-none focus:ring-1 focus:ring-blue-500`}
+              />
             </div>
           </div>
-
-          <div className={`lg:col-span-3 p-6 rounded-xl ${
-            isDark
-              ? 'bg-[#111111] border border-gray-800'
-              : 'bg-white shadow-sm'
-          }`}>
-            <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Recent Activity
-            </h2>
-            <div className="mt-4">
-              {/* Activity feed will be added here */}
+          
+          <div className="flex items-center gap-4">
+            <div className="flex items-center">
+              <button className={`p-2 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+                <Bell className={`h-5 w-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
+              </button>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                AY
+              </div>
+              <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Adeniyi Ayo</span>
+              <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
             </div>
           </div>
         </div>
-      </div>
+      </header>
+
+      <main className="px-6 py-6">
+        <div className="mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div>
+              <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                Welcome back, Ayo <span className="text-yellow-400">👋</span>
+              </h1>
+              <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                You're learning 70% of your goals. Keep it up and improve your progress.
+              </p>
+            </div>
+
+            <div>
+              <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                My Progress
+              </h2>
+              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                {calendarData.month}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div className={`lg:col-span-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <h3 className={`font-semibold text-lg`}>Announcements</h3>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
+                    <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
+                    <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+                  </div>
+                </div>
+                <Link href="/announcements" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                  See all
+                </Link>
+              </div>
+              
+              <div className="space-y-4">
+                {announcements.map(announcement => (
+                  <AnnouncementCard key={announcement.id} announcement={announcement} />
+                ))}
+              </div>
+            </div>
+            
+            <div className={`lg:col-span-2 p-6 rounded-xl ${
+              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+            }`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Completion Progress</h3>
+              </div>
+              
+              <div className="space-y-4">
+                {progressModules.map((module, index) => (
+                  <div key={index} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                        {module.name}
+                      </span>
+                      <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        Chapter {module.chapter}
+                      </span>
+                    </div>
+                    <div className={`h-2 w-full rounded-full ${isDark ? 'bg-gray-800' : 'bg-gray-200'}`}>
+                      <div 
+                        className={`h-full rounded-full bg-blue-500`}
+                        style={{ width: `${module.progress}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-right">
+                      <span className={`text-xs font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {module.progress}%
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
+          <div className={`lg:col-span-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Upcoming Activities</h2>
+              <Link href="#" className={`text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                See all
+              </Link>
+            </div>
+            
+            {/* Calendar Week View */}
+            <div className={`rounded-xl mb-6 ${
+              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+            }`}>
+              <div className="grid grid-cols-7 p-4">
+                {calendarData.days.map((day, index) => (
+                  <div key={index} className="text-center">
+                    <div className={`text-xs mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                      {day.dayOfWeek}
+                    </div>
+                    <div className="space-y-2">
+                      {day.dates.map((date, dateIndex) => {
+                        const isCurrentDay = date === calendarData.currentDay;
+                        const isHighlighted = calendarData.highlights.includes(date);
+                        
+                        return (
+                          <div key={dateIndex} className="flex justify-center">
+                            <div className={`
+                              w-8 h-8 flex items-center justify-center rounded-full text-sm
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white' 
+                                : isHighlighted
+                                  ? isDark 
+                                    ? 'bg-gray-800 text-white' 
+                                    : 'bg-gray-100 text-gray-900'
+                                  : ''
+                              }
+                            `}>
+                              {date}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Activities List */}
+            <div className="space-y-3">
+              {upcomingActivities.map((activity) => (
+                <Link href={activity.link} key={activity.id} className={`
+                  block p-4 rounded-xl ${isDark ? 'bg-gray-900 hover:bg-gray-800 border border-gray-800' : 'bg-white hover:bg-gray-50 shadow-sm'}
+                `}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 rounded-full ${activity.color} flex items-center justify-center text-white font-bold`}>
+                      {activity.id}
+                    </div>
+                    <div>
+                      <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                        {activity.title}
+                      </h4>
+                      <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {activity.time}
+                      </p>
+                    </div>
+                    <div className="ml-auto">
+                      <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+          
+          <div className={`lg:col-span-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <div className="flex flex-col gap-6">
+              {/* Messages */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold">Messages</h2>
+                  <Link href="#" className={`text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                    View All
+                  </Link>
+                </div>
+                
+                <div className={`rounded-xl p-4 ${
+                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                }`}>
+                  <div className="space-y-4">
+                    {messages.slice(0, 3).map((message) => (
+                      <div key={message.id} className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-medium`}>
+                          {message.initial}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <h4 className={`font-medium truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                              {message.sender}
+                            </h4>
+                            <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                              {message.time}
+                            </span>
+                          </div>
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {message.role}
+                          </p>
+                          <p className={`text-sm mt-1 truncate ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                            {message.message}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Top Performing Students */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold">Top Performing Student</h2>
+                </div>
+                
+                <div className={`rounded-xl p-4 ${
+                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                }`}>
+                  <div className="space-y-4">
+                    {topPerformers.map((student) => (
+                      <div key={student.id} className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full ${student.color} flex items-center justify-center font-medium`}>
+                          {student.initial}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {student.name}
+                          </h4>
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            Final Score
+                          </p>
+                        </div>
+                        <div className={`rounded-full px-2 py-1 text-xs font-medium ${
+                          isDark ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+                        }`}>
+                          {student.score}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 } 
