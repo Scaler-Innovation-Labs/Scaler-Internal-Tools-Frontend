@@ -221,98 +221,138 @@ const tickets = [
   {
     id: "TKT-001",
     title: "Broken AC in Room 201",
+    description: "Air conditioner in Room 201 is not cooling properly. Need immediate attention.",
     priority: "high",
     reporter: "John Smith",
     reportedDate: "June 15, 2023",
     status: "reported",
-    department: "facilities"
+    department: "facilities",
+    assignees: ["Jane Doe"],
+    comments: 2,
+    attachments: 1
   },
   {
     id: "TKT-002",
     title: "Projector not working",
+    description: "Projector in the main auditorium shows blue screen. Checked cables and power.",
     priority: "medium",
     reporter: "Sarah Williams",
     reportedDate: "June 16, 2023",
     status: "noticed",
-    department: "it"
+    department: "it",
+    assignees: ["Mike Johnson", "Tech Support"],
+    comments: 3,
+    attachments: 1
   },
   {
     id: "TKT-003",
     title: "Water leakage in Lab",
+    description: "Water leaking from ceiling in the chemistry lab. Might damage equipment.",
     priority: "high",
     reporter: "David Miller",
     reportedDate: "June 14, 2023",
     status: "work_started",
-    department: "facilities"
+    department: "facilities",
+    assignees: ["Maintenance Team"],
+    comments: 4,
+    attachments: 2
   },
   {
     id: "TKT-004",
     title: "Library door stuck",
+    description: "The main library door doesn't close properly. Creates noise when people enter.",
     priority: "low",
     reporter: "Emma Johnson",
     reportedDate: "June 13, 2023",
     status: "work_done",
-    department: "facilities"
+    department: "facilities",
+    assignees: ["Repair Team"],
+    comments: 2,
+    attachments: 0
   },
   {
     id: "TKT-005",
     title: "Missing markers in Room 105",
+    description: "All whiteboard markers are missing in Room 105. Need replacement.",
     priority: "low",
     reporter: "Prof. Williams",
     reportedDate: "June 17, 2023",
     status: "reported",
-    department: "supplies"
+    department: "supplies",
+    assignees: ["Admin Office"],
+    comments: 1,
+    attachments: 0
   },
   {
     id: "TKT-006",
     title: "WiFi connection issues",
+    description: "WiFi network 'Campus-Main' has weak signal in the eastern wing.",
     priority: "medium",
     reporter: "IT Department",
     reportedDate: "June 16, 2023",
     status: "work_started",
-    department: "it"
+    department: "it",
+    assignees: ["Network Team"],
+    comments: 5,
+    attachments: 1
   },
   {
     id: "TKT-007",
     title: "Broken chair in Room 103",
+    description: "Student chair in the back row of room 103 has a broken armrest.",
     priority: "low",
     reporter: "Student Council",
     reportedDate: "June 12, 2023",
     status: "work_done",
-    department: "facilities"
+    department: "facilities",
+    assignees: ["Maintenance"],
+    comments: 2,
+    attachments: 1
   },
   {
     id: "TKT-008",
     title: "Scanner not working",
+    description: "Office scanner showing error code E-402. Tried restarting but issue persists.",
     priority: "medium",
     reporter: "Admin Office",
     reportedDate: "June 15, 2023",
     status: "noticed",
-    department: "it"
+    department: "it",
+    assignees: ["Tech Support"],
+    comments: 2,
+    attachments: 0
   }
 ];
 
 // Ticket status configurations
 const ticketStatusConfig = {
   reported: {
-    color: "red",
-    icon: "alert-circle",
-    label: "Reported"
+    label: "Next Up",
+    color: "bg-amber-500",
+    textColor: "text-amber-600 dark:text-amber-400",
+    bgColor: "bg-amber-50 dark:bg-amber-900/20",
+    icon: AlertCircle
   },
   noticed: {
-    color: "orange",
-    icon: "eye",
-    label: "Noticed"
+    label: "In Progress",
+    color: "bg-purple-500",
+    textColor: "text-purple-600 dark:text-purple-400",
+    bgColor: "bg-purple-50 dark:bg-purple-900/20",
+    icon: Eye
   },
   work_started: {
-    color: "blue",
-    icon: "tool",
-    label: "Work Started"
+    label: "Review",
+    color: "bg-sky-500",
+    textColor: "text-sky-600 dark:text-sky-400",
+    bgColor: "bg-sky-50 dark:bg-sky-900/20",
+    icon: Tool
   },
   work_done: {
-    color: "green",
-    icon: "check-circle",
-    label: "Work Done"
+    label: "Completed",
+    color: "bg-green-500",
+    textColor: "text-green-600 dark:text-green-400",
+    bgColor: "bg-green-50 dark:bg-green-900/20",
+    icon: CheckCircle
   }
 };
 
@@ -810,148 +850,154 @@ export default function DashboardPage() {
           
           <div className={`lg:col-span-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <h2 className="text-lg font-semibold">Ticketing System</h2>
-                <div className="flex items-center gap-1.5">
-                  <div className={`h-2 w-2 rounded-full bg-red-500`}></div>
-                  <div className={`h-2 w-2 rounded-full bg-blue-500`}></div>
-                  <div className={`h-2 w-2 rounded-full bg-green-500`}></div>
-                </div>
               </div>
-              <Link href="/tickets" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                View All
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/tickets" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                  View All
+                </Link>
+              </div>
             </div>
             
-            <div className={`rounded-xl ${
+            <div className={`rounded-xl overflow-hidden ${
               isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
             }`}>
-              {/* Kanban Board Header */}
-              <div className="grid grid-cols-4 gap-1 p-3 border-b border-gray-200 dark:border-gray-700">
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-full py-1 px-2">
-                    <AlertCircle className="h-3 w-3" />
-                    Reported
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 rounded-full py-1 px-2">
-                    <Eye className="h-3 w-3" />
-                    Noticed
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-full py-1 px-2">
-                    <Tool className="h-3 w-3" />
-                    Work Started
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-full py-1 px-2">
-                    <CheckCircle className="h-3 w-3" />
-                    Done
-                  </div>
+              {/* Tabs or Filter options */}
+              <div className="flex items-center border-b border-gray-200 dark:border-gray-700 px-4 py-2">
+                <button className={`px-3 py-1.5 text-sm font-medium rounded-md ${isDark ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'}`}>
+                  By Status
+                </button>
+                <button className={`px-3 py-1.5 text-sm font-medium ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800'}`}>
+                  By Assignee
+                </button>
+                <button className={`px-3 py-1.5 text-sm font-medium ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800'}`}>
+                  My Tickets
+                </button>
+                <button className={`px-3 py-1.5 text-sm font-medium ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800'}`}>
+                  Due Tickets
+                </button>
+                
+                <div className="ml-auto flex items-center gap-2">
+                  <span className="text-xs text-gray-500">Sort</span>
+                  <button className={`px-2 py-1 text-xs font-medium rounded ${isDark ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'}`}>
+                    A → Z
+                  </button>
                 </div>
               </div>
               
               {/* Kanban Board Columns */}
-              <div className="grid grid-cols-4 gap-1 p-2 max-h-[340px] overflow-auto">
-                {/* Reported Column */}
-                <div className="space-y-2">
-                  {ticketsByStatus.reported.map(ticket => (
-                    <div 
-                      key={ticket.id} 
-                      className={`p-2 rounded-md text-xs ${
-                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
-                      } cursor-pointer transition-colors`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
-                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
+              <div className="grid grid-cols-4 gap-4 p-4 max-h-[420px] overflow-auto">
+                {/* Map through the status types */}
+                {Object.entries(ticketStatusConfig).map(([status, config]) => (
+                  <div key={status} className="flex flex-col">
+                    {/* Column Header */}
+                    <div className={`flex items-center justify-between mb-3`}>
+                      <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${config.textColor} ${config.bgColor}`}>
+                        <config.icon className="h-3.5 w-3.5" />
+                        <span>{config.label}</span>
+                        <span className={`ml-1 w-5 h-5 rounded-full flex items-center justify-center text-xs ${config.color} text-white`}>
+                          {ticketsByStatus[status].length}
+                        </span>
                       </div>
-                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
+                      <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
                     </div>
-                  ))}
-                </div>
-                
-                {/* Noticed Column */}
-                <div className="space-y-2">
-                  {ticketsByStatus.noticed.map(ticket => (
-                    <div 
-                      key={ticket.id} 
-                      className={`p-2 rounded-md text-xs ${
-                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
-                      } cursor-pointer transition-colors`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
-                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
-                      </div>
-                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
+                    
+                    {/* Tickets in this column */}
+                    <div className="space-y-3">
+                      {ticketsByStatus[status].map(ticket => (
+                        <div 
+                          key={ticket.id} 
+                          className={`p-3 rounded-lg ${
+                            isDark 
+                              ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700' 
+                              : 'bg-white hover:bg-gray-50 border border-gray-100 shadow-sm'
+                          } cursor-pointer transition-all duration-200 hover:shadow-md`}
+                        >
+                          {/* Department Tag */}
+                          <div className="text-xs text-gray-500 dark:text-gray-400 capitalize mb-1">
+                            {ticket.department}
+                          </div>
+                          
+                          {/* Ticket Title */}
+                          <h4 className={`font-medium mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {ticket.title}
+                          </h4>
+                          
+                          {/* Description */}
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-3 line-clamp-2`}>
+                            {ticket.description}
+                          </p>
+                          
+                          {/* Assignees */}
+                          <div className="flex items-center gap-1 mb-3">
+                            {ticket.assignees.map((assignee, idx) => (
+                              <div 
+                                key={idx} 
+                                className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
+                                  idx % 3 === 0 ? 'bg-blue-100 text-blue-700' : 
+                                  idx % 3 === 1 ? 'bg-purple-100 text-purple-700' : 
+                                  'bg-orange-100 text-orange-700'
+                                }`}
+                              >
+                                {assignee.split(' ').map(word => word[0]).join('')}
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* Footer */}
+                          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1">
+                                <svg className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                {ticket.comments}
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <svg className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                                {ticket.attachments}
+                              </div>
+                            </div>
+                            
+                            {/* Priority Badge */}
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                              ticket.priority === 'high' 
+                                ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
+                                : ticket.priority === 'medium'
+                                  ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
+                                  : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                            }`}>
+                              {ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {/* Add Card button */}
+                      {ticketsByStatus[status].length < 3 && (
+                        <button 
+                          className={`w-full py-2 rounded-lg border border-dashed flex items-center justify-center gap-1 text-sm ${
+                            isDark 
+                              ? 'border-gray-700 text-gray-500 hover:text-gray-400 hover:border-gray-600' 
+                              : 'border-gray-300 text-gray-500 hover:text-gray-700 hover:border-gray-400'
+                          }`}
+                        >
+                          <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                          </svg>
+                          Add Card
+                        </button>
+                      )}
                     </div>
-                  ))}
-                </div>
-                
-                {/* Work Started Column */}
-                <div className="space-y-2">
-                  {ticketsByStatus.work_started.map(ticket => (
-                    <div 
-                      key={ticket.id} 
-                      className={`p-2 rounded-md text-xs ${
-                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
-                      } cursor-pointer transition-colors`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
-                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
-                      </div>
-                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Work Done Column */}
-                <div className="space-y-2">
-                  {ticketsByStatus.work_done.map(ticket => (
-                    <div 
-                      key={ticket.id} 
-                      className={`p-2 rounded-md text-xs ${
-                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
-                      } cursor-pointer transition-colors`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
-                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
-                      </div>
-                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Stats footer */}
-              <div className="flex items-center justify-between p-3 border-t border-gray-200 dark:border-gray-700 text-xs">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1">
-                    <span className={`inline-block h-2 w-2 rounded-full bg-red-500`}></span>
-                    <span>High: {tickets.filter(t => t.priority === "high").length}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <span className={`inline-block h-2 w-2 rounded-full bg-orange-500`}></span>
-                    <span>Medium: {tickets.filter(t => t.priority === "medium").length}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className={`inline-block h-2 w-2 rounded-full bg-blue-500`}></span>
-                    <span>Low: {tickets.filter(t => t.priority === "low").length}</span>
-                  </div>
-                </div>
-                <div>
-                  Total: {tickets.length} tickets
-                </div>
+                ))}
               </div>
             </div>
           </div>
