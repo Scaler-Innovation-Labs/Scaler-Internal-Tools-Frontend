@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Search, Bell, ChevronDown } from "lucide-react";
+import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Tool } from "lucide-react";
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 import { useState } from "react";
@@ -216,6 +216,106 @@ const lostAndFoundItems = [
   },
 ];
 
+// Ticket system mock data
+const tickets = [
+  {
+    id: "TKT-001",
+    title: "Broken AC in Room 201",
+    priority: "high",
+    reporter: "John Smith",
+    reportedDate: "June 15, 2023",
+    status: "reported",
+    department: "facilities"
+  },
+  {
+    id: "TKT-002",
+    title: "Projector not working",
+    priority: "medium",
+    reporter: "Sarah Williams",
+    reportedDate: "June 16, 2023",
+    status: "noticed",
+    department: "it"
+  },
+  {
+    id: "TKT-003",
+    title: "Water leakage in Lab",
+    priority: "high",
+    reporter: "David Miller",
+    reportedDate: "June 14, 2023",
+    status: "work_started",
+    department: "facilities"
+  },
+  {
+    id: "TKT-004",
+    title: "Library door stuck",
+    priority: "low",
+    reporter: "Emma Johnson",
+    reportedDate: "June 13, 2023",
+    status: "work_done",
+    department: "facilities"
+  },
+  {
+    id: "TKT-005",
+    title: "Missing markers in Room 105",
+    priority: "low",
+    reporter: "Prof. Williams",
+    reportedDate: "June 17, 2023",
+    status: "reported",
+    department: "supplies"
+  },
+  {
+    id: "TKT-006",
+    title: "WiFi connection issues",
+    priority: "medium",
+    reporter: "IT Department",
+    reportedDate: "June 16, 2023",
+    status: "work_started",
+    department: "it"
+  },
+  {
+    id: "TKT-007",
+    title: "Broken chair in Room 103",
+    priority: "low",
+    reporter: "Student Council",
+    reportedDate: "June 12, 2023",
+    status: "work_done",
+    department: "facilities"
+  },
+  {
+    id: "TKT-008",
+    title: "Scanner not working",
+    priority: "medium",
+    reporter: "Admin Office",
+    reportedDate: "June 15, 2023",
+    status: "noticed",
+    department: "it"
+  }
+];
+
+// Ticket status configurations
+const ticketStatusConfig = {
+  reported: {
+    color: "red",
+    icon: "alert-circle",
+    label: "Reported"
+  },
+  noticed: {
+    color: "orange",
+    icon: "eye",
+    label: "Noticed"
+  },
+  work_started: {
+    color: "blue",
+    icon: "tool",
+    label: "Work Started"
+  },
+  work_done: {
+    color: "green",
+    icon: "check-circle",
+    label: "Work Done"
+  }
+};
+
 // Color schema for different announcement/event types
 const typeColors = {
   instructor: {
@@ -272,6 +372,14 @@ export default function DashboardPage() {
     setCurrentItemIndex(prevIndex => 
       prevIndex === 0 ? filteredItems.length - 1 : prevIndex - 1
     );
+  };
+  
+  // Group tickets by status
+  const ticketsByStatus = {
+    reported: tickets.filter(ticket => ticket.status === "reported"),
+    noticed: tickets.filter(ticket => ticket.status === "noticed"),
+    work_started: tickets.filter(ticket => ticket.status === "work_started"),
+    work_done: tickets.filter(ticket => ticket.status === "work_done")
   };
   
   return (
@@ -701,88 +809,148 @@ export default function DashboardPage() {
           </div>
           
           <div className={`lg:col-span-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            <div className="flex flex-col gap-6">
-              {/* Messages */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-semibold">Messages</h2>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
-                    </div>
-                  </div>
-                  <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                    View All
-                  </Link>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-semibold">Ticketing System</h2>
+                <div className="flex items-center gap-1.5">
+                  <div className={`h-2 w-2 rounded-full bg-red-500`}></div>
+                  <div className={`h-2 w-2 rounded-full bg-blue-500`}></div>
+                  <div className={`h-2 w-2 rounded-full bg-green-500`}></div>
                 </div>
-                
-                <div className={`rounded-xl p-4 ${
-                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-                }`}>
-                  <div className="space-y-4">
-                    {messages.slice(0, 3).map((message) => (
-                      <div key={message.id} className="flex items-start gap-3">
-                        <div className={`w-10 h-10 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-medium`}>
-                          {message.initial}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <h4 className={`font-medium truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                              {message.sender}
-                            </h4>
-                            <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                              {message.time}
-                            </span>
-                          </div>
-                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                            {message.role}
-                          </p>
-                          <p className={`text-sm mt-1 truncate ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                            {message.message}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+              </div>
+              <Link href="/tickets" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                View All
+              </Link>
+            </div>
+            
+            <div className={`rounded-xl ${
+              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+            }`}>
+              {/* Kanban Board Header */}
+              <div className="grid grid-cols-4 gap-1 p-3 border-b border-gray-200 dark:border-gray-700">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-full py-1 px-2">
+                    <AlertCircle className="h-3 w-3" />
+                    Reported
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 rounded-full py-1 px-2">
+                    <Eye className="h-3 w-3" />
+                    Noticed
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-full py-1 px-2">
+                    <Tool className="h-3 w-3" />
+                    Work Started
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-full py-1 px-2">
+                    <CheckCircle className="h-3 w-3" />
+                    Done
                   </div>
                 </div>
               </div>
               
-              {/* Top Performing Students */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-semibold">Top Performing Student</h2>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+              {/* Kanban Board Columns */}
+              <div className="grid grid-cols-4 gap-1 p-2 max-h-[340px] overflow-auto">
+                {/* Reported Column */}
+                <div className="space-y-2">
+                  {ticketsByStatus.reported.map(ticket => (
+                    <div 
+                      key={ticket.id} 
+                      className={`p-2 rounded-md text-xs ${
+                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
+                      } cursor-pointer transition-colors`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
+                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
+                      </div>
+                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
                     </div>
-                  </div>
+                  ))}
                 </div>
                 
-                <div className={`rounded-xl p-4 ${
-                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-                }`}>
-                  <div className="space-y-4">
-                    {topPerformers.map((student) => (
-                      <div key={student.id} className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-full ${student.color} flex items-center justify-center font-medium`}>
-                          {student.initial}
-                        </div>
-                        <div className="flex-1">
-                          <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                            {student.name}
-                          </h4>
-                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                            Final Score
-                          </p>
-                        </div>
-                        <div className={`rounded-full px-2 py-1 text-xs font-medium ${
-                          isDark ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
-                        }`}>
-                          {student.score}
-                        </div>
+                {/* Noticed Column */}
+                <div className="space-y-2">
+                  {ticketsByStatus.noticed.map(ticket => (
+                    <div 
+                      key={ticket.id} 
+                      className={`p-2 rounded-md text-xs ${
+                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
+                      } cursor-pointer transition-colors`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
+                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
                       </div>
-                    ))}
+                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Work Started Column */}
+                <div className="space-y-2">
+                  {ticketsByStatus.work_started.map(ticket => (
+                    <div 
+                      key={ticket.id} 
+                      className={`p-2 rounded-md text-xs ${
+                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
+                      } cursor-pointer transition-colors`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
+                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
+                      </div>
+                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Work Done Column */}
+                <div className="space-y-2">
+                  {ticketsByStatus.work_done.map(ticket => (
+                    <div 
+                      key={ticket.id} 
+                      className={`p-2 rounded-md text-xs ${
+                        isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'
+                      } cursor-pointer transition-colors`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[10px] text-gray-500 dark:text-gray-400">{ticket.id}</span>
+                        <span className={`inline-block h-1.5 w-1.5 rounded-full ${ticket.priority === "high" ? "bg-red-500" : ticket.priority === "medium" ? "bg-orange-500" : "bg-blue-500"}`}></span>
+                      </div>
+                      <div className="font-medium mb-1 line-clamp-2">{ticket.title}</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">{ticket.reportedDate}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Stats footer */}
+              <div className="flex items-center justify-between p-3 border-t border-gray-200 dark:border-gray-700 text-xs">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    <span className={`inline-block h-2 w-2 rounded-full bg-red-500`}></span>
+                    <span>High: {tickets.filter(t => t.priority === "high").length}</span>
                   </div>
+                  <div className="flex items-center gap-1">
+                    <span className={`inline-block h-2 w-2 rounded-full bg-orange-500`}></span>
+                    <span>Medium: {tickets.filter(t => t.priority === "medium").length}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className={`inline-block h-2 w-2 rounded-full bg-blue-500`}></span>
+                    <span>Low: {tickets.filter(t => t.priority === "low").length}</span>
+                  </div>
+                </div>
+                <div>
+                  Total: {tickets.length} tickets
                 </div>
               </div>
             </div>
