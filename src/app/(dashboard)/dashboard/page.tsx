@@ -467,159 +467,65 @@ export default function DashboardPage() {
                 </div>
               </div>
               
-              {/* Replacing Completion Progress with Lost and Found Carousel */}
-              <div className={`mt-6 rounded-xl overflow-hidden ${
-                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-              }`}>
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
-                  
-                  {/* Toggle between Lost and Found */}
-                  <div className="flex items-center rounded-lg border overflow-hidden text-sm font-medium bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "lost" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("lost");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Lost
-                    </button>
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "found" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("found");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Found
-                    </button>
+              {/* Upcoming Activities */}
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <h3 className={`font-semibold text-lg`}>Upcoming Activities</h3>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
+                      <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
+                      <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+                    </div>
                   </div>
+                  <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                    See all
+                  </Link>
                 </div>
                 
-                {filteredItems.length > 0 ? (
-                  <div className="relative">
-                    <div className="flex h-64 relative">
-                      {/* Image section */}
-                      <div className="w-1/2 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center p-4 relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 opacity-90"></div>
-                        <div className="w-48 h-48 bg-white rounded-xl shadow-xl relative z-10 overflow-hidden">
-                          {filteredItems[currentItemIndex]?.image ? (
-                            <img 
-                              src={filteredItems[currentItemIndex].image} 
-                              alt={filteredItems[currentItemIndex].itemName}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                // Fallback to placeholder if image fails to load
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                              }}
-                            />
-                          ) : null}
-                          <div className={`w-full h-full absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 ${filteredItems[currentItemIndex]?.image ? 'hidden' : ''}`}>
-                            <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                <div className="space-y-2">
+                  {upcomingActivities.slice(0, 3).map((activity) => {
+                    const eventColor = typeColors[activity.type as keyof typeof typeColors];
+                    
+                    return (
+                      <Link 
+                        href={activity.link} 
+                        key={activity.id} 
+                        className={`
+                          block p-3 rounded-lg transition-all duration-300 hover:scale-[1.01] 
+                          ${isDark 
+                            ? `bg-gray-900 hover:bg-gray-800 border border-gray-800` 
+                            : `bg-white hover:bg-gray-50 shadow-sm`
+                          }
+                        `}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-lg shadow-sm ${eventColor.bg} flex items-center justify-center text-white font-bold text-sm`}>
+                            {activity.id}
                           </div>
-                        </div>
-                        
-                        {/* Card number indicator */}
-                        <div className="absolute top-4 right-4 z-20 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-medium">
-                          Card {currentItemIndex + 1}
-                        </div>
-                        
-                        {/* Navigation buttons */}
-                        <button 
-                          onClick={goToPrevItem} 
-                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
-                        >
-                          <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        
-                        <button 
-                          onClick={goToNextItem} 
-                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
-                        >
-                          <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </div>
-                      
-                      {/* Details section */}
-                      <div className="w-1/2 p-6">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className={`font-medium text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                            {filteredItems[currentItemIndex]?.itemName}
-                          </h4>
-                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                            filteredItems[currentItemIndex]?.isLost 
-                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" 
-                              : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
-                          }`}>
-                            {filteredItems[currentItemIndex]?.isLost ? "Lost" : "Found"}
-                          </span>
-                        </div>
-                        
-                        <div className="space-y-3 mt-4">
-                          <div>
-                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Contact Person: </span>
-                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.personName}</span>
-                          </div>
-                          <div>
-                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Location: </span>
-                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.location}</span>
-                          </div>
-                          <div>
-                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Date: </span>
-                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.date}</span>
-                          </div>
-                          <div>
-                            <span className={`text-sm font-medium block mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Description: </span>
-                            <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
-                              {filteredItems[currentItemIndex]?.description}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1 mb-0.5">
+                              <div className={`h-1.5 w-1.5 rounded-full ${eventColor.bg}`}></div>
+                              <span className={`text-xs ${
+                                isDark ? `text-${activity.type}-300` : `text-${activity.type}-700`
+                              }`}>
+                                {activity.type === "instructor" ? "Class" : 
+                                 activity.type === "exam" ? "Exam" : 
+                                 activity.type === "club" ? "Event" : "Deadline"}
+                              </span>
+                            </div>
+                            <h4 className={`font-medium text-sm truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                              {activity.title}
+                            </h4>
+                            <p className={`text-xs truncate ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                              {activity.time}
                             </p>
                           </div>
                         </div>
-                        
-                        {/* Pagination dots */}
-                        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-1.5">
-                          {filteredItems.map((_, index) => (
-                            <button 
-                              key={index}
-                              onClick={() => setCurrentItemIndex(index)}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentItemIndex 
-                                  ? 'bg-blue-500 w-5' 
-                                  : isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'
-                              }`}
-                              aria-label={`Go to item ${index + 1}`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={`h-48 flex items-center justify-center text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    <div>
-                      <svg className="w-12 h-12 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 16h.01M17 18v1a1 1 0 01-1 1H8a1 1 0 01-1-1v-1m5-5a4 4 0 100-8 4 4 0 000 8z" />
-                      </svg>
-                      <p>No {itemType} items to display at the moment.</p>
-                    </div>
-                  </div>
-                )}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
@@ -629,66 +535,168 @@ export default function DashboardPage() {
           <div className={`lg:col-span-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold">Upcoming Activities</h2>
+                <h2 className="text-lg font-semibold">Lost and Found</h2>
                 <div className="flex items-center gap-1.5">
                   <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
                   <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
                   <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
                 </div>
               </div>
-              <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                See all
-              </Link>
             </div>
             
-            {/* Activities List */}
-            <div className="space-y-3">
-              {upcomingActivities.map((activity) => {
-                const eventColor = typeColors[activity.type as keyof typeof typeColors];
+            {/* Lost and Found Carousel */}
+            <div className={`rounded-xl overflow-hidden ${
+              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+            }`}>
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
                 
-                return (
-                  <Link 
-                    href={activity.link} 
-                    key={activity.id} 
-                    className={`
-                      block p-4 rounded-xl transition-all duration-300 hover:scale-[1.01] 
-                      ${isDark 
-                        ? `bg-gray-900 hover:bg-gray-800 border border-gray-800` 
-                        : `bg-white hover:bg-gray-50 shadow-sm`
-                      }
-                    `}
+                {/* Toggle between Lost and Found */}
+                <div className="flex items-center rounded-lg border overflow-hidden text-sm font-medium bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                  <button 
+                    className={`px-3 py-1.5 ${
+                      itemType === "lost" 
+                        ? "bg-blue-500 text-white" 
+                        : isDark ? "text-gray-300" : "text-gray-700"
+                    }`}
+                    onClick={() => {
+                      setItemType("lost");
+                      setCurrentItemIndex(0);
+                    }}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-lg shadow-sm ${eventColor.bg} flex items-center justify-center text-white font-bold`}>
-                        {activity.id}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <div className={`h-2 w-2 rounded-full ${eventColor.bg}`}></div>
-                          <span className={`text-xs font-semibold ${
-                            isDark ? `text-${activity.type}-300` : `text-${activity.type}-700`
-                          }`}>
-                            {activity.type === "instructor" ? "Class" : 
-                             activity.type === "exam" ? "Exam" : 
-                             activity.type === "club" ? "Event" : "Deadline"}
-                          </span>
+                    Lost
+                  </button>
+                  <button 
+                    className={`px-3 py-1.5 ${
+                      itemType === "found" 
+                        ? "bg-blue-500 text-white" 
+                        : isDark ? "text-gray-300" : "text-gray-700"
+                    }`}
+                    onClick={() => {
+                      setItemType("found");
+                      setCurrentItemIndex(0);
+                    }}
+                  >
+                    Found
+                  </button>
+                </div>
+              </div>
+              
+              {filteredItems.length > 0 ? (
+                <div className="relative">
+                  <div className="flex h-64 relative">
+                    {/* Image section */}
+                    <div className="w-1/2 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center p-4 relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 opacity-90"></div>
+                      <div className="w-48 h-48 bg-white rounded-xl shadow-xl relative z-10 overflow-hidden">
+                        {filteredItems[currentItemIndex]?.image ? (
+                          <img 
+                            src={filteredItems[currentItemIndex].image} 
+                            alt={filteredItems[currentItemIndex].itemName}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Fallback to placeholder if image fails to load
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        <div className={`w-full h-full absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 ${filteredItems[currentItemIndex]?.image ? 'hidden' : ''}`}>
+                          <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
                         </div>
-                        <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {activity.title}
-                        </h4>
-                        <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                          {activity.time}
-                        </p>
                       </div>
-                      <div className="ml-auto">
-                        <svg className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                      
+                      {/* Card number indicator */}
+                      <div className="absolute top-4 right-4 z-20 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-medium">
+                        Card {currentItemIndex + 1}
+                      </div>
+                      
+                      {/* Navigation buttons */}
+                      <button 
+                        onClick={goToPrevItem} 
+                        className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                      >
+                        <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
+                      </button>
+                      
+                      <button 
+                        onClick={goToNextItem} 
+                        className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                      >
+                        <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    {/* Details section */}
+                    <div className="w-1/2 p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className={`font-medium text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          {filteredItems[currentItemIndex]?.itemName}
+                        </h4>
+                        <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+                          filteredItems[currentItemIndex]?.isLost 
+                            ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" 
+                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+                        }`}>
+                          {filteredItems[currentItemIndex]?.isLost ? "Lost" : "Found"}
+                        </span>
+                      </div>
+                      
+                      <div className="space-y-3 mt-4">
+                        <div>
+                          <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Contact Person: </span>
+                          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.personName}</span>
+                        </div>
+                        <div>
+                          <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Location: </span>
+                          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.location}</span>
+                        </div>
+                        <div>
+                          <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Date: </span>
+                          <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.date}</span>
+                        </div>
+                        <div>
+                          <span className={`text-sm font-medium block mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Description: </span>
+                          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                            {filteredItems[currentItemIndex]?.description}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Pagination dots */}
+                      <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-1.5">
+                        {filteredItems.map((_, index) => (
+                          <button 
+                            key={index}
+                            onClick={() => setCurrentItemIndex(index)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                              index === currentItemIndex 
+                                ? 'bg-blue-500 w-5' 
+                                : isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'
+                            }`}
+                            aria-label={`Go to item ${index + 1}`}
+                          />
+                        ))}
                       </div>
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </div>
+              ) : (
+                <div className={`h-48 flex items-center justify-center text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  <div>
+                    <svg className="w-12 h-12 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 16h.01M17 18v1a1 1 0 01-1 1H8a1 1 0 01-1-1v-1m5-5a4 4 0 100-8 4 4 0 000 8z" />
+                    </svg>
+                    <p>No {itemType} items to display at the moment.</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           
