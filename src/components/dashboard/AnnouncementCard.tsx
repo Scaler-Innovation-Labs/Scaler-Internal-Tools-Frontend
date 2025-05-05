@@ -105,28 +105,28 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
   const typeLabel = typeLabels[announcement.type];
 
   return (
-    <div className={`p-5 rounded-xl border shadow-sm transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md ${
+    <div className={`p-4 rounded-xl border shadow-sm transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md ${
       isDark 
         ? `${typeColor.darkBg} ${typeColor.darkBorder}` 
         : `${typeColor.bg} ${typeColor.border}`
     }`}>
-      <div className="flex items-start gap-4">
-        <div className={`w-12 h-12 rounded-full ${avatarColor} flex items-center justify-center font-medium text-base flex-shrink-0`}>
+      <div className="flex items-start gap-3">
+        <div className={`w-10 h-10 rounded-full ${avatarColor} flex items-center justify-center font-medium text-sm flex-shrink-0`}>
           {announcement.author.initial}
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start justify-between mb-1.5">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <div className={`h-2.5 w-2.5 rounded-full ${typeColor.dot}`}></div>
-                <span className={`text-xs font-semibold ${
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <div className={`h-2 w-2 rounded-full ${typeColor.dot}`}></div>
+                <span className={`text-xs font-medium ${
                   isDark ? `text-${announcement.type}-300` : `text-${announcement.type}-700`
                 }`}>
                   {typeLabel}
                 </span>
               </div>
-              <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <h3 className={`text-base font-semibold leading-tight mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 {announcement.title}
               </h3>
             </div>
@@ -134,43 +134,43 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
             {announcement.hasAttachment && (
               <Link 
                 href={announcement.attachmentLink || `/announcements/${announcement.id}`}
-                className={`p-2 rounded-full ${
+                className={`p-1.5 rounded-full ${
                   isDark 
                     ? 'bg-gray-800 text-blue-300 hover:bg-gray-700' 
                     : 'bg-white text-blue-700 hover:bg-blue-50'
                 } flex-shrink-0 shadow-sm transition-colors`}
               >
-                <Link2 className="h-5 w-5" />
+                <Link2 className="h-4 w-4" />
               </Link>
             )}
           </div>
           
-          <div className="flex items-center gap-2 mb-3">
-            <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+          <div className="flex items-center gap-2 mb-2 text-xs">
+            <span className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {announcement.author.name}
             </span>
             <span className={`inline-block h-1 w-1 rounded-full ${isDark ? 'bg-gray-600' : 'bg-gray-400'}`}></span>
-            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            <span className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               {announcement.date}
             </span>
           </div>
           
-          <p className={`text-base ${isDark ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
+          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'} leading-snug line-clamp-2`}>
             {announcement.message}
           </p>
           
           {announcement.hasAttachment && (
-            <div className="mt-4">
+            <div className="mt-3">
               <Link 
                 href={announcement.attachmentLink || `/announcements/${announcement.id}`}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   isDark 
                     ? `bg-${announcement.type}-900/40 text-${announcement.type}-300 hover:bg-${announcement.type}-900/60` 
                     : `bg-${announcement.type}-200 text-${announcement.type}-800 hover:bg-${announcement.type}-300`
                 }`}
               >
                 View details
-                <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </Link>
