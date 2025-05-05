@@ -103,13 +103,19 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
   const typeColor = typeColors[announcement.type];
   const avatarColor = avatarColors[announcement.type];
   const typeLabel = typeLabels[announcement.type];
+  
+  // Generate the link to the announcement detail page
+  const detailPageLink = announcement.attachmentLink || `/announcements/${announcement.id}`;
 
   return (
-    <div className={`p-4 rounded-xl border shadow-sm transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md ${
-      isDark 
-        ? `${typeColor.darkBg} ${typeColor.darkBorder}` 
-        : `${typeColor.bg} ${typeColor.border}`
-    }`}>
+    <Link
+      href={detailPageLink}
+      className={`block p-4 rounded-xl border shadow-sm transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-md ${
+        isDark 
+          ? `${typeColor.darkBg} ${typeColor.darkBorder}` 
+          : `${typeColor.bg} ${typeColor.border}`
+      }`}
+    >
       <div className="flex items-start gap-3">
         <div className={`w-10 h-10 rounded-full ${avatarColor} flex items-center justify-center font-medium text-sm flex-shrink-0`}>
           {announcement.author.initial}
@@ -132,16 +138,16 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
             </div>
             
             {announcement.hasAttachment && (
-              <Link 
-                href={announcement.attachmentLink || `/announcements/${announcement.id}`}
+              <div 
                 className={`p-1.5 rounded-full ${
                   isDark 
-                    ? 'bg-gray-800 text-blue-300 hover:bg-gray-700' 
-                    : 'bg-white text-blue-700 hover:bg-blue-50'
-                } flex-shrink-0 shadow-sm transition-colors`}
+                    ? 'bg-gray-800 text-blue-300' 
+                    : 'bg-white text-blue-700'
+                } flex-shrink-0 shadow-sm`}
+                onClick={(e) => e.stopPropagation()}
               >
                 <Link2 className="h-4 w-4" />
-              </Link>
+              </div>
             )}
           </div>
           
@@ -161,23 +167,22 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
           
           {announcement.hasAttachment && (
             <div className="mt-3">
-              <Link 
-                href={announcement.attachmentLink || `/announcements/${announcement.id}`}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              <span 
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium ${
                   isDark 
-                    ? `bg-${announcement.type}-900/40 text-${announcement.type}-300 hover:bg-${announcement.type}-900/60` 
-                    : `bg-${announcement.type}-200 text-${announcement.type}-800 hover:bg-${announcement.type}-300`
+                    ? `bg-${announcement.type}-900/40 text-${announcement.type}-300` 
+                    : `bg-${announcement.type}-200 text-${announcement.type}-800`
                 }`}
               >
                 View details
                 <svg className="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </Link>
+              </span>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 } 
