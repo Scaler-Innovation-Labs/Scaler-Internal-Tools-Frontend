@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { Search, Bell, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
+import { useState } from "react";
 
 // Mock data
 const announcements: Announcement[] = [
@@ -62,7 +63,12 @@ const calendarData = {
     { dayOfWeek: "Su", dates: [4, 11, 18, 25, 1] },
   ],
   currentDay: 8,
-  highlights: [19, 13, 18, 23],
+  highlights: [
+    { date: 13, type: "exam" },
+    { date: 18, type: "club" },
+    { date: 19, type: "instructor" },
+    { date: 23, type: "admin" }
+  ],
 };
 
 const progressModules = [
@@ -78,28 +84,28 @@ const upcomingActivities = [
     title: "Life Contingency Tutorials", 
     time: "Monday, June 12, 2023 • 8:00 - 9:00 AM",
     link: "#",
-    color: "bg-blue-500"
+    type: "instructor"
   },
   { 
     id: 13, 
     title: "Social Insurance Test", 
     time: "Tuesday, June 13, 2023 • 10:00 - 11:00 AM",
     link: "#",
-    color: "bg-pink-500"
+    type: "exam"
   },
   { 
     id: 18, 
     title: "Adv. Maths Assignment Due", 
     time: "Monday, June 18, 2023 • 11:59 PM",
     link: "#",
-    color: "bg-green-500"
+    type: "club"
   },
   { 
     id: 23, 
     title: "Dr. Ogie's Tutorial Class", 
     time: "Friday, June 23, 2023 • 2:00 - 3:00 PM",
     link: "#",
-    color: "bg-orange-500"
+    type: "admin"
   },
 ];
 
@@ -166,9 +172,107 @@ const topPerformers = [
   },
 ];
 
+// Lost and Found items mock data
+const lostAndFoundItems = [
+  {
+    id: 1,
+    itemName: "Blue Water Bottle",
+    personName: "John Smith",
+    location: "Room 205",
+    date: "June 10, 2023",
+    description: "Blue Hydro Flask with stickers, left after the Physics class. Please contact if found.",
+    image: "/images/water-bottle.jpg",
+    isLost: true,
+  },
+  {
+    id: 2, 
+    itemName: "Calculator (TI-84)",
+    personName: "Staff Office",
+    location: "Room 101",
+    date: "June 15, 2023",
+    description: "Black TI-84 Plus calculator found after the Math exam. Please claim from the staff office with proper identification.",
+    image: "/images/calculator.jpg",
+    isLost: false,
+  },
+  {
+    id: 3,
+    itemName: "Apple Airpods",
+    personName: "Sarah Johnson",
+    location: "Library",
+    date: "June 12, 2023",
+    description: "White case with initials SJ on the back. Last seen in the library near the computer section.",
+    image: "/images/airpods.jpg", 
+    isLost: true,
+  },
+  {
+    id: 4,
+    itemName: "USB Flash Drive",
+    personName: "Admin Office",
+    location: "Room 301",
+    date: "June 8, 2023",
+    description: "16GB black Kingston drive with important class materials. Found in the student lounge.",
+    image: "/images/usb.jpg",
+    isLost: false,
+  },
+];
+
+// Color schema for different announcement/event types
+const typeColors = {
+  instructor: {
+    bg: 'bg-blue-500',
+    hover: 'hover:bg-blue-600',
+    light: 'bg-blue-100'
+  },
+  admin: {
+    bg: 'bg-purple-500',
+    hover: 'hover:bg-purple-600',
+    light: 'bg-purple-100'
+  },
+  exam: {
+    bg: 'bg-red-500',
+    hover: 'hover:bg-red-600',
+    light: 'bg-red-100'
+  },
+  club: {
+    bg: 'bg-green-500',
+    hover: 'hover:bg-green-600',
+    light: 'bg-green-100'
+  },
+  council: {
+    bg: 'bg-amber-500',
+    hover: 'hover:bg-amber-600',
+    light: 'bg-amber-100'
+  },
+  general: {
+    bg: 'bg-gray-500',
+    hover: 'hover:bg-gray-600',
+    light: 'bg-gray-100'
+  },
+};
+
 export default function DashboardPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const [itemType, setItemType] = useState<"lost" | "found">("lost");
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+  
+  // Filter lost and found items based on the selected type
+  const filteredItems = lostAndFoundItems.filter(item => 
+    itemType === "lost" ? item.isLost : !item.isLost
+  );
+  
+  // Navigation functions for the carousel
+  const goToNextItem = () => {
+    setCurrentItemIndex(prevIndex => 
+      prevIndex === filteredItems.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+  
+  const goToPrevItem = () => {
+    setCurrentItemIndex(prevIndex => 
+      prevIndex === 0 ? filteredItems.length - 1 : prevIndex - 1
+    );
+  };
   
   return (
     <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
@@ -264,37 +368,258 @@ export default function DashboardPage() {
               </div>
             </div>
             
-            <div className={`lg:col-span-2 p-6 rounded-xl ${
-              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-            }`}>
+            <div className={`lg:col-span-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Completion Progress</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className={`font-semibold text-lg`}>Calendar</h3>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
+                    <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
+                    <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+                  </div>
+                </div>
               </div>
               
-              <div className="space-y-4">
-                {progressModules.map((module, index) => (
-                  <div key={index} className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        {module.name}
-                      </span>
-                      <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        Chapter {module.chapter}
-                      </span>
+              {/* Enhanced Calendar */}
+              <div className={`rounded-xl p-4 ${
+                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+              }`}>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {calendarData.month}
+                  </h4>
+                  <div className="flex items-center gap-2">
+                    <button className={`p-1.5 rounded-md ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+                      <svg className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button className={`p-1.5 rounded-md ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+                      <svg className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-7 gap-1">
+                  {calendarData.days.map((day, index) => (
+                    <div key={index} className="text-center">
+                      <div className={`text-xs font-medium mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {day.dayOfWeek}
+                      </div>
+                      <div className="space-y-1">
+                        {day.dates.map((date, dateIndex) => {
+                          const isCurrentDay = date === calendarData.currentDay;
+                          const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                          const isHighlighted = !!highlightInfo;
+                          const type = highlightInfo?.type || "general";
+                          const eventColor = typeColors[type as keyof typeof typeColors];
+                          
+                          return (
+                            <div key={dateIndex} className="flex justify-center">
+                              <button 
+                                className={`
+                                  w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium 
+                                  transition-all duration-200 hover:scale-105
+                                  ${isCurrentDay 
+                                    ? `${typeColors.instructor.bg} text-white` 
+                                    : isHighlighted
+                                      ? isDark 
+                                        ? `${eventColor.bg} text-white` 
+                                        : `${eventColor.light} text-gray-900`
+                                      : isDark
+                                        ? 'hover:bg-gray-800 text-gray-300'
+                                        : 'hover:bg-gray-100 text-gray-700'
+                                  }
+                                `}
+                              >
+                                {date}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <div className={`h-2 w-full rounded-full ${isDark ? 'bg-gray-800' : 'bg-gray-200'}`}>
-                      <div 
-                        className={`h-full rounded-full bg-blue-500`}
-                        style={{ width: `${module.progress}%` }}
-                      ></div>
+                  ))}
+                </div>
+                
+                {/* Legend */}
+                <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.instructor.bg}`}></div>
+                      <span className="text-xs">Classes</span>
                     </div>
-                    <div className="text-right">
-                      <span className={`text-xs font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {module.progress}%
-                      </span>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.exam.bg}`}></div>
+                      <span className="text-xs">Exams</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.club.bg}`}></div>
+                      <span className="text-xs">Events</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.admin.bg}`}></div>
+                      <span className="text-xs">Deadlines</span>
                     </div>
                   </div>
-                ))}
+                </div>
+              </div>
+              
+              {/* Replacing Completion Progress with Lost and Found Carousel */}
+              <div className={`mt-6 rounded-xl overflow-hidden ${
+                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+              }`}>
+                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                  <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
+                  
+                  {/* Toggle between Lost and Found */}
+                  <div className="flex items-center rounded-lg border overflow-hidden text-sm font-medium bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                    <button 
+                      className={`px-3 py-1.5 ${
+                        itemType === "lost" 
+                          ? "bg-blue-500 text-white" 
+                          : isDark ? "text-gray-300" : "text-gray-700"
+                      }`}
+                      onClick={() => {
+                        setItemType("lost");
+                        setCurrentItemIndex(0);
+                      }}
+                    >
+                      Lost
+                    </button>
+                    <button 
+                      className={`px-3 py-1.5 ${
+                        itemType === "found" 
+                          ? "bg-blue-500 text-white" 
+                          : isDark ? "text-gray-300" : "text-gray-700"
+                      }`}
+                      onClick={() => {
+                        setItemType("found");
+                        setCurrentItemIndex(0);
+                      }}
+                    >
+                      Found
+                    </button>
+                  </div>
+                </div>
+                
+                {filteredItems.length > 0 ? (
+                  <div className="relative">
+                    <div className="flex h-64 relative">
+                      {/* Image section */}
+                      <div className="w-1/2 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center p-4 relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 opacity-90"></div>
+                        <div className="w-48 h-48 bg-white rounded-xl shadow-xl relative z-10 overflow-hidden">
+                          {filteredItems[currentItemIndex]?.image ? (
+                            <img 
+                              src={filteredItems[currentItemIndex].image} 
+                              alt={filteredItems[currentItemIndex].itemName}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                // Fallback to placeholder if image fails to load
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                              }}
+                            />
+                          ) : null}
+                          <div className={`w-full h-full absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 ${filteredItems[currentItemIndex]?.image ? 'hidden' : ''}`}>
+                            <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                        
+                        {/* Card number indicator */}
+                        <div className="absolute top-4 right-4 z-20 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-medium">
+                          Card {currentItemIndex + 1}
+                        </div>
+                        
+                        {/* Navigation buttons */}
+                        <button 
+                          onClick={goToPrevItem} 
+                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                        >
+                          <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        
+                        <button 
+                          onClick={goToNextItem} 
+                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                        >
+                          <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </div>
+                      
+                      {/* Details section */}
+                      <div className="w-1/2 p-6">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className={`font-medium text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {filteredItems[currentItemIndex]?.itemName}
+                          </h4>
+                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+                            filteredItems[currentItemIndex]?.isLost 
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100" 
+                              : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+                          }`}>
+                            {filteredItems[currentItemIndex]?.isLost ? "Lost" : "Found"}
+                          </span>
+                        </div>
+                        
+                        <div className="space-y-3 mt-4">
+                          <div>
+                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Contact Person: </span>
+                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.personName}</span>
+                          </div>
+                          <div>
+                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Location: </span>
+                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.location}</span>
+                          </div>
+                          <div>
+                            <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Date: </span>
+                            <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{filteredItems[currentItemIndex]?.date}</span>
+                          </div>
+                          <div>
+                            <span className={`text-sm font-medium block mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Description: </span>
+                            <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                              {filteredItems[currentItemIndex]?.description}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        {/* Pagination dots */}
+                        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-1.5">
+                          {filteredItems.map((_, index) => (
+                            <button 
+                              key={index}
+                              onClick={() => setCurrentItemIndex(index)}
+                              className={`w-2 h-2 rounded-full transition-all ${
+                                index === currentItemIndex 
+                                  ? 'bg-blue-500 w-5' 
+                                  : isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'
+                              }`}
+                              aria-label={`Go to item ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={`h-48 flex items-center justify-center text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                    <div>
+                      <svg className="w-12 h-12 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 16h.01M17 18v1a1 1 0 01-1 1H8a1 1 0 01-1-1v-1m5-5a4 4 0 100-8 4 4 0 000 8z" />
+                      </svg>
+                      <p>No {itemType} items to display at the moment.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -303,75 +628,67 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
           <div className={`lg:col-span-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Upcoming Activities</h2>
-              <Link href="#" className={`text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-semibold">Upcoming Activities</h2>
+                <div className="flex items-center gap-1.5">
+                  <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
+                  <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
+                  <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+                </div>
+              </div>
+              <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
                 See all
               </Link>
             </div>
             
-            {/* Calendar Week View */}
-            <div className={`rounded-xl mb-6 ${
-              isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-            }`}>
-              <div className="grid grid-cols-7 p-4">
-                {calendarData.days.map((day, index) => (
-                  <div key={index} className="text-center">
-                    <div className={`text-xs mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                      {day.dayOfWeek}
-                    </div>
-                    <div className="space-y-2">
-                      {day.dates.map((date, dateIndex) => {
-                        const isCurrentDay = date === calendarData.currentDay;
-                        const isHighlighted = calendarData.highlights.includes(date);
-                        
-                        return (
-                          <div key={dateIndex} className="flex justify-center">
-                            <div className={`
-                              w-8 h-8 flex items-center justify-center rounded-full text-sm
-                              ${isCurrentDay 
-                                ? 'bg-blue-500 text-white' 
-                                : isHighlighted
-                                  ? isDark 
-                                    ? 'bg-gray-800 text-white' 
-                                    : 'bg-gray-100 text-gray-900'
-                                  : ''
-                              }
-                            `}>
-                              {date}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
             {/* Activities List */}
             <div className="space-y-3">
-              {upcomingActivities.map((activity) => (
-                <Link href={activity.link} key={activity.id} className={`
-                  block p-4 rounded-xl ${isDark ? 'bg-gray-900 hover:bg-gray-800 border border-gray-800' : 'bg-white hover:bg-gray-50 shadow-sm'}
-                `}>
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full ${activity.color} flex items-center justify-center text-white font-bold`}>
-                      {activity.id}
+              {upcomingActivities.map((activity) => {
+                const eventColor = typeColors[activity.type as keyof typeof typeColors];
+                
+                return (
+                  <Link 
+                    href={activity.link} 
+                    key={activity.id} 
+                    className={`
+                      block p-4 rounded-xl transition-all duration-300 hover:scale-[1.01] 
+                      ${isDark 
+                        ? `bg-gray-900 hover:bg-gray-800 border border-gray-800` 
+                        : `bg-white hover:bg-gray-50 shadow-sm`
+                      }
+                    `}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-lg shadow-sm ${eventColor.bg} flex items-center justify-center text-white font-bold`}>
+                        {activity.id}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className={`h-2 w-2 rounded-full ${eventColor.bg}`}></div>
+                          <span className={`text-xs font-semibold ${
+                            isDark ? `text-${activity.type}-300` : `text-${activity.type}-700`
+                          }`}>
+                            {activity.type === "instructor" ? "Class" : 
+                             activity.type === "exam" ? "Exam" : 
+                             activity.type === "club" ? "Event" : "Deadline"}
+                          </span>
+                        </div>
+                        <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          {activity.title}
+                        </h4>
+                        <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                          {activity.time}
+                        </p>
+                      </div>
+                      <div className="ml-auto">
+                        <svg className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        {activity.title}
-                      </h4>
-                      <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {activity.time}
-                      </p>
-                    </div>
-                    <div className="ml-auto">
-                      <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           
@@ -380,8 +697,13 @@ export default function DashboardPage() {
               {/* Messages */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold">Messages</h2>
-                  <Link href="#" className={`text-sm ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-lg font-semibold">Messages</h2>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
+                    </div>
+                  </div>
+                  <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
                     View All
                   </Link>
                 </div>
@@ -420,7 +742,12 @@ export default function DashboardPage() {
               {/* Top Performing Students */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold">Top Performing Student</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-lg font-semibold">Top Performing Student</h2>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className={`rounded-xl p-4 ${
@@ -456,4 +783,4 @@ export default function DashboardPage() {
       </main>
     </div>
   );
-} 
+}
