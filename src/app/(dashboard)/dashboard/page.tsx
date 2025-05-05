@@ -473,22 +473,38 @@ export default function DashboardPage() {
 
       <main className="px-6 py-6">
         <div className="mb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div>
-              <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Welcome back, Ayo <span className="text-yellow-400">👋</span>
-              </h1>
-              <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                You're learning 70% of your goals. Keep it up and improve your progress.
-              </p>
-            </div>
-
-            <div>
-              <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                My Progress
-              </h2>
-              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                {calendarData.month}
+          {/* Header/Welcome Card */}
+          <div className="relative overflow-hidden bg-blue-500 rounded-xl p-8 mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="relative z-10">
+                <h1 className="text-3xl font-bold text-white mb-2">
+                  Welcome back, Ayo <span className="text-yellow-300">👋</span>
+                </h1>
+                <p className="text-blue-100 max-w-md">
+                  You've learned <span className="font-bold text-white">70%</span> of your goal this week!
+                  Keep it up and improve your progress.
+                </p>
+              </div>
+              
+              {/* Decorative Circle & Illustration */}
+              <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center">
+                <div className="relative w-64 h-64">
+                  <div className="absolute inset-0 bg-blue-400 rounded-full opacity-50 translate-x-1/4"></div>
+                  <div className="absolute right-5 top-8 transform -translate-y-1/4">
+                    <svg width="150" height="150" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                      <path d="M206.791 200.046C194.605 217.942 175.54 230.351 153.243 233.855C130.946 237.359 108.031 231.681 90.135 219.494C72.2399 207.308 60.8302 188.243 57.3263 165.946C53.8223 143.649 59.5003 120.734 71.687 102.838C83.8736 84.9426 102.939 73.5329 125.236 70.029C147.533 66.525 170.447 72.203 188.343 84.3896C206.239 96.5762 217.649 115.642 221.153 137.939C224.657 160.236 218.979 183.15 206.791 201.046" fill="#F0F7FF" stroke="#F0F7FF" strokeWidth="3" />
+                      <path d="M82.5 221C84.5 219.5 87.5 216.5 87.5 216.5L92.5 209.5L88.5 197.5L78.5 197.5L73.5 201.5L70.5 204L67.5 208.5L67.5 213.5L70.5 218.5L76.5 221L82.5 221Z" fill="#FFB8C2" />
+                      <path d="M142.5 147.5L154 149L156.5 158L165.5 161L171.5 172L168 181L155.5 189.5L149 195L141.885 207L121 212L104 207L94.5 200L89 192L85.5 183L83.5 173L84.5 163L87.5 154L92.5 146L99.5 138.5L108.5 132L118.5 127.5L129.5 125L138.5 126L142.5 147.5Z" fill="white" />
+                      <path d="M112 155C119.2 155 125 149.2 125 142C125 134.8 119.2 129 112 129C104.8 129 99 134.8 99 142C99 149.2 104.8 155 112 155Z" fill="white" stroke="#001A72" />
+                      <path d="M146.557, 170.907A24, 42 30 0 1 97.3516, 180.907A24, 42 30 0 1 107.352, 129.094A24, 42 30 0 1 156.557, 119.094A24, 42 30 0 1 146.557, 170.907Z" fill="#3A7BEF" stroke="#001A72" />
+                      <path d="M117.5 120.5L119 112L123 105.5L129.5 97.5L138 92L145.5 88.5L154.5 86.5L163.5 87L170.5 89.5L176.5 93.5L181.5 98.5L186 106.5L188 113.5L188.5 124L186.5 135.5L184 142L180 149L174.5 154.5L167.5 159L161 162L153.5 163.5L142 162.5L136 160.5L131 158L126 155L127 145L144 143L154.5 135.5L158.5 128.5L159.5 121.5L157.5 113.5L152.5 105.5L146 102.5L138 101L131 103L126 106L121 109.5L119 113.5L118 118.5L117.5 120.5Z" fill="white" />
+                      <path d="M140.5 126.5C140.5 126.5 145.5 121.5 151.5 121.5C157.5 121.5 161 126.5 161 126.5" stroke="#001A72" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M176 118V124" stroke="#001A72" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M146.5 116C146.5 116 147.5 111 151 111C154.5 111 156 115.5 156 115.5" stroke="#001A72" strokeLinecap="round" />
+                      <path d="M146.5 152.5L141 157" stroke="#001A72" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -517,162 +533,286 @@ export default function DashboardPage() {
             </div>
             
             <div className={`lg:col-span-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h3 className={`font-semibold text-lg`}>Calendar</h3>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Enhanced Calendar */}
-              <div className={`rounded-xl p-4 ${
-                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
-              }`}>
+              <div className="flex flex-col">
+                {/* Calendar Header with Month and Progress title */}
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {calendarData.month}
-                  </h4>
+                  <h3 className={`font-semibold text-lg`}>My Progress</h3>
                   <div className="flex items-center gap-2">
-                    <button className={`p-1.5 rounded-md ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                      <svg className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                    <button className={`p-1.5 rounded-md ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                      <svg className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                      JULY 2021
+                    </span>
+                    <button className="text-gray-500 dark:text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </button>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-7 gap-1">
-                  {calendarData.days.map((day, index) => (
-                    <div key={index} className="text-center">
-                      <div className={`text-xs font-medium mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {day.dayOfWeek}
-                      </div>
-                      <div className="space-y-1">
-                        {day.dates.map((date, dateIndex) => {
-                          const isCurrentDay = date === calendarData.currentDay;
-                          const highlightInfo = calendarData.highlights.find(h => h.date === date);
-                          const isHighlighted = !!highlightInfo;
-                          const type = highlightInfo?.type || "general";
-                          const eventColor = typeColors[type as keyof typeof typeColors];
-                          
-                          return (
-                            <div key={dateIndex} className="flex justify-center">
-                              <button 
-                                className={`
-                                  w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium 
-                                  transition-all duration-200 hover:scale-105
-                                  ${isCurrentDay 
-                                    ? `${typeColors.instructor.bg} text-white` 
-                                    : isHighlighted
-                                      ? isDark 
-                                        ? `${eventColor.bg} text-white` 
-                                        : `${eventColor.light} text-gray-900`
-                                      : isDark
-                                        ? 'hover:bg-gray-800 text-gray-300'
-                                        : 'hover:bg-gray-100 text-gray-700'
-                                  }
-                                `}
-                              >
-                                {date}
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Legend */}
-                <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.instructor.bg}`}></div>
-                      <span className="text-xs">Classes</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.exam.bg}`}></div>
-                      <span className="text-xs">Exams</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.club.bg}`}></div>
-                      <span className="text-xs">Events</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2.5 w-2.5 rounded-full ${typeColors.admin.bg}`}></div>
-                      <span className="text-xs">Deadlines</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Upcoming Activities */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <h3 className={`font-semibold text-lg`}>Upcoming Activities</h3>
-                    <div className="flex items-center gap-1.5">
-                      <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
-                      <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
-                      <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
-                    </div>
-                  </div>
-                  <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                    See all
-                  </Link>
-                </div>
-                
-                <div className="space-y-2">
-                  {upcomingActivities.slice(0, 3).map((activity) => {
-                    const eventColor = typeColors[activity.type as keyof typeof typeColors];
-                    
-                    return (
-                      <Link 
-                        href={activity.link} 
-                        key={activity.id} 
-                        className={`
-                          block p-3 rounded-lg transition-all duration-300 hover:scale-[1.01] 
-                          ${isDark 
-                            ? `bg-gray-900 hover:bg-gray-800 border border-gray-800` 
-                            : `bg-white hover:bg-gray-50 shadow-sm`
-                          }
-                        `}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-lg shadow-sm ${eventColor.bg} flex items-center justify-center text-white font-bold text-sm`}>
-                            {activity.id}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1 mb-0.5">
-                              <div className={`h-1.5 w-1.5 rounded-full ${eventColor.bg}`}></div>
-                              <span className={`text-xs ${
-                                isDark ? `text-${activity.type}-300` : `text-${activity.type}-700`
-                              }`}>
-                                {activity.type === "instructor" ? "Class" : 
-                                 activity.type === "exam" ? "Exam" : 
-                                 activity.type === "club" ? "Event" : "Deadline"}
-                              </span>
-                            </div>
-                            <h4 className={`font-medium text-sm truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                              {activity.title}
-                            </h4>
-                            <p className={`text-xs truncate ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                              {activity.time}
-                            </p>
-                          </div>
+                {/* Enhanced Calendar */}
+                <div className={`rounded-xl p-4 ${
+                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                }`}>
+                  {/* Days of week header */}
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((day, idx) => (
+                      <div key={idx} className="text-center">
+                        <div className={`text-xs font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                          {day}
                         </div>
-                      </Link>
-                    );
-                  })}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Calendar grid */}
+                  <div className="grid grid-cols-7 gap-1">
+                    {/* First week - placeholder for previous month */}
+                    {[28, 29, 30, 1, 2, 3, 4].map((date, idx) => {
+                      const isCurrentMonth = date < 10;
+                      const isCurrentDay = date === calendarData.currentDay && isCurrentMonth;
+                      const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                      const isHighlighted = !!highlightInfo;
+                      const type = highlightInfo?.type || "general";
+                      const eventColor = typeColors[type as keyof typeof typeColors];
+                      
+                      return (
+                        <div key={`week1-${idx}`} className="text-center">
+                          <button 
+                            className={`
+                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              transition-all duration-200 hover:scale-105
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white font-medium' 
+                                : isHighlighted
+                                  ? isDark 
+                                    ? `${eventColor.bg} text-white` 
+                                    : `${eventColor.light} text-gray-900`
+                                  : isCurrentMonth 
+                                    ? isDark
+                                      ? 'hover:bg-gray-800 text-gray-200'
+                                      : 'hover:bg-gray-100 text-gray-700'
+                                    : isDark
+                                      ? 'text-gray-600'
+                                      : 'text-gray-400'
+                              }
+                            `}
+                          >
+                            {date}
+                          </button>
+                        </div>
+                      );
+                    })}
+                    
+                    {/* Second week */}
+                    {[5, 6, 7, 8, 9, 10, 11].map((date, idx) => {
+                      const isCurrentDay = date === calendarData.currentDay;
+                      const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                      const isHighlighted = !!highlightInfo;
+                      const type = highlightInfo?.type || "general";
+                      const eventColor = typeColors[type as keyof typeof typeColors];
+                      
+                      return (
+                        <div key={`week2-${idx}`} className="text-center">
+                          <button 
+                            className={`
+                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              transition-all duration-200 hover:scale-105
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white font-medium' 
+                                : isHighlighted
+                                  ? isDark 
+                                    ? `${eventColor.bg} text-white` 
+                                    : `${eventColor.light} text-gray-900`
+                                  : isDark
+                                    ? 'hover:bg-gray-800 text-gray-200'
+                                    : 'hover:bg-gray-100 text-gray-700'
+                              }
+                            `}
+                          >
+                            {date}
+                          </button>
+                        </div>
+                      );
+                    })}
+                    
+                    {/* Third week with days 12-18 */}
+                    {[12, 13, 14, 15, 16, 17, 18].map((date, idx) => {
+                      const isCurrentDay = date === calendarData.currentDay;
+                      const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                      const isHighlighted = !!highlightInfo;
+                      const type = highlightInfo?.type || "general";
+                      const eventColor = typeColors[type as keyof typeof typeColors];
+                      
+                      return (
+                        <div key={`week3-${idx}`} className="text-center">
+                          <button 
+                            className={`
+                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              transition-all duration-200 hover:scale-105
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white font-medium' 
+                                : isHighlighted
+                                  ? isDark 
+                                    ? `${eventColor.bg} text-white` 
+                                    : `${eventColor.light} text-gray-900`
+                                  : isDark
+                                    ? 'hover:bg-gray-800 text-gray-200'
+                                    : 'hover:bg-gray-100 text-gray-700'
+                              }
+                            `}
+                          >
+                            {date}
+                          </button>
+                        </div>
+                      );
+                    })}
+                    
+                    {/* Fourth week with days 19-25 */}
+                    {[19, 20, 21, 22, 23, 24, 25].map((date, idx) => {
+                      const isCurrentDay = date === calendarData.currentDay;
+                      const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                      const isHighlighted = !!highlightInfo;
+                      const type = highlightInfo?.type || "general";
+                      const eventColor = typeColors[type as keyof typeof typeColors];
+                      
+                      return (
+                        <div key={`week4-${idx}`} className="text-center">
+                          <button 
+                            className={`
+                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              transition-all duration-200 hover:scale-105
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white font-medium' 
+                                : isHighlighted
+                                  ? isDark 
+                                    ? `${eventColor.bg} text-white` 
+                                    : `${eventColor.light} text-gray-900`
+                                  : isDark
+                                    ? 'hover:bg-gray-800 text-gray-200'
+                                    : 'hover:bg-gray-100 text-gray-700'
+                              }
+                            `}
+                          >
+                            {date}
+                          </button>
+                        </div>
+                      );
+                    })}
+                    
+                    {/* Fifth week */}
+                    {[26, 27, 28, 29, 30, 31, 1].map((date, idx) => {
+                      const isCurrentMonth = date < 32;
+                      const isCurrentDay = date === calendarData.currentDay && isCurrentMonth;
+                      const highlightInfo = calendarData.highlights.find(h => h.date === date);
+                      const isHighlighted = !!highlightInfo;
+                      const type = highlightInfo?.type || "general";
+                      const eventColor = typeColors[type as keyof typeof typeColors];
+                      
+                      return (
+                        <div key={`week5-${idx}`} className="text-center">
+                          <button 
+                            className={`
+                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              transition-all duration-200 hover:scale-105
+                              ${isCurrentDay 
+                                ? 'bg-blue-500 text-white font-medium' 
+                                : isHighlighted && isCurrentMonth
+                                  ? isDark 
+                                    ? `${eventColor.bg} text-white` 
+                                    : `${eventColor.light} text-gray-900`
+                                  : isCurrentMonth 
+                                    ? isDark
+                                      ? 'hover:bg-gray-800 text-gray-200'
+                                      : 'hover:bg-gray-100 text-gray-700'
+                                    : isDark
+                                      ? 'text-gray-600'
+                                      : 'text-gray-400'
+                              }
+                            `}
+                          >
+                            {date}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  {/* Legend */}
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-blue-500"></div>
+                      <span>Classes</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-red-500"></div>
+                      <span>Exams</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
+                      <span>Events</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-purple-500"></div>
+                      <span>Deadlines</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Upcoming Activities */}
+                <div className="mt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className={`font-semibold text-lg`}>Upcoming Activities</h3>
+                    <Link href="#" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                      See all
+                    </Link>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {upcomingActivities.slice(0, 3).map((activity) => {
+                      const eventColor = typeColors[activity.type as keyof typeof typeColors];
+                      
+                      return (
+                        <Link 
+                          href={activity.link} 
+                          key={activity.id} 
+                          className={`
+                            block p-3 rounded-lg transition-all duration-300 hover:scale-[1.01] 
+                            ${isDark 
+                              ? `bg-gray-900 hover:bg-gray-800 border border-gray-800` 
+                              : `bg-white hover:bg-gray-50 shadow-sm`
+                            }
+                          `}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg shadow-sm ${eventColor.bg} flex items-center justify-center text-white font-bold text-sm`}>
+                              {activity.id}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1 mb-0.5">
+                                <div className={`h-1.5 w-1.5 rounded-full ${eventColor.bg}`}></div>
+                                <span className={`text-xs ${
+                                  isDark ? `text-${activity.type}-300` : `text-${activity.type}-700`
+                                }`}>
+                                  {activity.type === "instructor" ? "Class" : 
+                                   activity.type === "exam" ? "Exam" : 
+                                   activity.type === "club" ? "Event" : "Deadline"}
+                                </span>
+                              </div>
+                              <h4 className={`font-medium text-sm truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                                {activity.title}
+                              </h4>
+                              <p className={`text-xs truncate ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {activity.time}
+                              </p>
+                            </div>
+                            <svg className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
