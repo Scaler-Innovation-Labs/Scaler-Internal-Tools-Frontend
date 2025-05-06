@@ -5,6 +5,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   fullWidth?: boolean;
+  gradient_color_1: string;
+  gradient_color_2: string;
+  gradient_color_3: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -17,14 +20,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       fullWidth = false,
       disabled,
+      gradient_color_1,
+      gradient_color_2,
+      gradient_color_3,
       ...props
     },
     ref
   ) => {
-    const baseStyles = "font-medium rounded-xl transition-all";
+    const baseStyles = "font-medium rounded-xl transition-all gap-[10px] font-noto-sans font-semibold text-[20px]";
     
     const variantStyles = {
-      primary: "bg-gradient-to-r from-gray-200 via-rose-200 to-amber-200 hover:opacity-90 text-black shadow-lg",
+      primary: `bg-gradient-to-r from-[${gradient_color_1}] to-[${gradient_color_3}] hover:opacity-90 text-white shadow-lg`,
       secondary: "border border-gray-800 bg-[#111111] hover:bg-gray-900 text-white",
       outline: "border border-gray-700 hover:bg-gray-800/20 text-white",
       ghost: "hover:bg-gray-800/30 text-white",
@@ -44,6 +50,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${disabled || isLoading ? "opacity-70 cursor-not-allowed" : ""} ${className}`}
         disabled={disabled || isLoading}
         {...props}
+        style={
+          variant === "primary"
+            ? { background: `linear-gradient(to right, ${gradient_color_1}, ${gradient_color_2}, ${gradient_color_3})` }
+            : undefined
+        }
       >
         {isLoading ? (
           <div className="flex items-center justify-center">
