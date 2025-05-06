@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,6 +77,11 @@ export default function SignupPage() {
     blob_1_colors = ['#190061', '#0A1B30']
     blob_2_colors = ['#000F61', '#000F61']
   }
+
+  const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+  
+    if (!mounted) return null;
   
   return (
     <AuthLayout title="Roll the Carpet.!" skipText="Skit the lag.!" skipHref="/dashboard" blob_1_colors={blob_1_colors} blob_2_colors={blob_2_colors}>

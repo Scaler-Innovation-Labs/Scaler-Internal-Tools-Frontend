@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,6 +57,11 @@ export default function ForgotPasswordPage() {
     blob_2_colors = ['#61004B', '#220A30']
   }
   
+  const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+  
+    if (!mounted) return null;
+
   return (
     <AuthLayout title="No worries.!!" skipText="Take me back.!" skipHref="/login" blob_1_colors={blob_1_colors} blob_2_colors={blob_2_colors}>
       <div className="flex flex-col justify-between items-center p-[97px_40px_47px_40px] h-auto rounded-[20px] border border-[#AFAFAF] bg-gradient-to-[321deg] from-[#bfbfbf10] via-[#00000000] to-[#00000024] shadow-[8px_4px_5px_0px_rgba(0,0,0,0.24)] backdrop-blur-[26.5px] gap-[14px] w-[400px] Frame5">

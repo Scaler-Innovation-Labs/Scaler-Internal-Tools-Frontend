@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import AuthLayout from "../components/AuthComponent";
 import { useTheme } from "next-themes";
-import { blob } from "stream/consumers";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -58,6 +57,11 @@ export default function LoginPage() {
     blob_1_colors = ["#530061", "#0D0A30"]
     blob_2_colors = ["#300061", "#0A1030"]
   }
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
   return (
     <AuthLayout
       title="Welcome Back!"
