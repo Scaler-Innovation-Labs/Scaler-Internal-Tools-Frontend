@@ -59,10 +59,10 @@ export default function ForgotPasswordPage() {
   
   return (
     <AuthLayout title="No worries.!!" skipText="Take me back.!" skipHref="/login" blob_1_colors={blob_1_colors} blob_2_colors={blob_2_colors}>
-      <div className="inline-flex flex-col justify-between items-center p-[97px_40px_47px_40px] h-[80%] rounded-[20px] border border-[#AFAFAF] bg-gradient-to-[321deg] from-[#bfbfbf10] via-[#00000000] to-[#00000024] shadow-[8px_4px_5px_0px_rgba(0,0,0,0.24)] backdrop-blur-[26.5px] gap-[14px] w-[400px] Frame5">
-        <div className="flex flex-col justify-between h-[75%] Frame-4">
+      <div className="flex flex-col justify-between items-center p-[97px_40px_47px_40px] h-auto rounded-[20px] border border-[#AFAFAF] bg-gradient-to-[321deg] from-[#bfbfbf10] via-[#00000000] to-[#00000024] shadow-[8px_4px_5px_0px_rgba(0,0,0,0.24)] backdrop-blur-[26.5px] gap-[14px] w-[400px] Frame5">
+        <div className="flex flex-col justify-between Frame-4">
           <div className="flex flex-col gap-[14px] Upper-Section">
-            <div className="flex flex-col items-start w-full Login-Text">
+            <div className="flex flex-col items-start w-full Login-Text mb-3 ">
               <span className="text-[var(--text-primary)] font-noto-sans text-3xl font-semibold leading-normal">Forgot Password?</span>
               <span className="text-[var(--text-primary)] font-noto-sans text-[16px] text-base leading-normal font-medium">Please enter you're email</span>
             </div>
