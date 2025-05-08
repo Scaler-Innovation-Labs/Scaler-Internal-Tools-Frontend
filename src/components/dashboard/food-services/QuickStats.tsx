@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import type { UserPlanSelection } from "@/lib/types/food-services.d";
 import { CheckCircle } from "lucide-react";
+import { useState } from 'react';
 
 interface QuickStatsProps {
   data: UserPlanSelection;
@@ -11,6 +12,9 @@ interface QuickStatsProps {
 export function QuickStats({ data }: QuickStatsProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // Single-selection state for meal type
+  const [selectedType, setSelectedType] = useState<string>(data.mealTypes[0] || '');
 
   // Compute initials from vendorName (first and last word)
   const words = data.vendorName.split(' ');
@@ -37,14 +41,23 @@ export function QuickStats({ data }: QuickStatsProps) {
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
-          {data.mealTypes.map(type => (
-            <span
-              key={type}
-              className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white'}`}
-            >
-              {type}
-            </span>
-          ))}
+          {data.mealTypes.map(type => {
+            const isSelected = type === selectedType;
+            return (
+              <button
+                key={type}
+                onClick={() => setSelectedType(type)}
+                className={`px-3 py-1 rounded-full text-xs font-medium focus:outline-none cursor-pointer transition-colors
+                  ${isSelected
+                    ? (isDark ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white')
+                    : (isDark ? 'border border-gray-600 text-gray-300' : 'border border-gray-300 text-gray-800')
+                  }
+                `}
+              >
+                {type}
+              </button>
+            );
+          })}
         </div>
         <div className={`mt-4 p-4 rounded-lg border shadow-sm ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
           <div className="flex items-center gap-2">

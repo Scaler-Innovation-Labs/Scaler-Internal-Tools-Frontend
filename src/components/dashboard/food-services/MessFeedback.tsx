@@ -28,8 +28,8 @@ export function MessFeedback() {
             <Star
               key={star}
               fill={isFilled ? 'currentColor' : 'none'}
-              stroke={isFilled ? 'none' : undefined}
-              className={`w-6 h-6 cursor-pointer ${isFilled ? 'text-yellow-400' : isDark ? 'text-gray-600' : 'text-gray-300'}`}
+              stroke={isFilled ? 'none' : 'currentColor'}
+              className={`w-6 h-6 cursor-pointer ${isFilled ? 'text-yellow-400' : isDark ? 'text-white' : 'text-gray-500'}`}
               onClick={() => setRating(star)}
               onMouseEnter={() => setHoverRating(star)}
               onMouseLeave={() => setHoverRating(0)}
