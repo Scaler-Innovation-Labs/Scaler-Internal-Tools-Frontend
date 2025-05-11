@@ -424,74 +424,27 @@ export default function DashboardPage() {
   
   return (
     <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
-      <header className={`px-4 py-2 ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              <div className="flex items-center mr-2">
-                <svg className="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                  <path fill="currentColor" d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
-                </svg>
-              </div>
-              <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>SST Internals</span>
-            </div>
-            
-            <div className={`h-5 w-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-            
-            <div className="relative w-64">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Search className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-              </div>
-              <input 
-                type="text" 
-                placeholder="Search Courses, Documents, Activities..." 
-                className={`pl-10 pr-4 py-2 w-full text-sm rounded-md ${
-                  isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-gray-50 text-gray-900 border-gray-300'
-                } border focus:outline-none focus:ring-1 focus:ring-blue-500`}
-              />
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              <button className={`p-2 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                <Bell className={`h-5 w-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
-              </button>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                AY
-              </div>
-              <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Adeniyi Ayo</span>
-              <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Search bar at top */}
-      <div className="mx-auto max-w-5xl px-4 py-3">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-          </div>
-          <input 
-            type="text" 
-            placeholder="Search Courses, Documents, Activities..." 
-            className={`pl-12 pr-4 py-3 w-full text-base rounded-xl ${
-              isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'
-            } border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          />
-        </div>
-      </div>
 
       <main className="px-6 py-6">
+      
         {/* Main content grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left column (larger) */}
-          <div className="lg:col-span-8">
+                <div className="lg:col-span-8">
+                <div className="mx-auto max-w-5xl px-4 py-3">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <Search className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search Courses, Documents, Activities..." 
+                  className={`pl-12 pr-4 py-3 w-full text-base rounded-xl ${
+                    isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'
+                  } border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                />
+              </div>
+            </div>
             {/* Header/Welcome Card - More Compact */}
             <div className="relative overflow-hidden bg-blue-500 rounded-xl p-5 mb-6">
               <div className="flex flex-wrap items-center justify-between">
@@ -722,8 +675,27 @@ export default function DashboardPage() {
           
           {/* Right column (smaller) */}
           <div className="lg:col-span-4">
+          <header className={`px-4 pb-2 ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
+          <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center">
+                  <button className={`p-2 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+                    <Bell className={`h-5 w-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
+                  </button>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                    AY
+                  </div>
+                  <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Adeniyi Ayo</span>
+                  <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
+                </div>
+              </div>
+            </div>
+          </header>
             {/* Calendar section */}
-            <div className={`${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <div className={`${isDark ? 'text-white' : 'text-gray-900'} mt-5`}>
               <div className="flex flex-col">
                 {/* Calendar Header with Month and Progress title */}
                 <div className="flex items-center justify-between mb-4">
