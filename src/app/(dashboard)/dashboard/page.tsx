@@ -415,7 +415,7 @@ export default function DashboardPage() {
   };
   
   // Group tickets by status
-  const ticketsByStatus = {
+  const ticketsByStatus : { [key: string]: any[] }= {
     reported: tickets.filter(ticket => ticket.status === "reported"),
     noticed: tickets.filter(ticket => ticket.status === "noticed"),
     work_started: tickets.filter(ticket => ticket.status === "work_started"),
@@ -429,8 +429,8 @@ export default function DashboardPage() {
       
         {/* Main content grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left column (larger) */}
-                <div className="lg:col-span-8">
+          {/* Left column (larger) - refers to the mid section of dashboard */}
+                <div className="lg:col-span-9">
                 <div className="mx-auto max-w-5xl px-4 py-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -439,7 +439,7 @@ export default function DashboardPage() {
                 <input 
                   type="text" 
                   placeholder="Search Courses, Documents, Activities..." 
-                  className={`pl-12 pr-4 py-3 w-full text-base rounded-xl ${
+                  className={`pl-10 pr-4 py-3 w-full text-base rounded-xl ${
                     isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'
                   } border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
@@ -673,9 +673,15 @@ export default function DashboardPage() {
             </div>
           </div>
           
-          {/* Right column (smaller) */}
-          <div className="lg:col-span-4">
-          <header className={`px-4 pb-2 ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
+          {/* Right column (smaller) - refers to the farmost right section*/}
+          <div
+            className={`lg:col-span-3 p-4 rounded-xl border ${
+              isDark
+                ? "bg-gray-900 text-gray-100 border-gray-800"
+                : "bg-white text-gray-900 border-gray-200"
+            }`}
+          >
+          <header className={`px-4 pb-2 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
           <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
@@ -713,7 +719,7 @@ export default function DashboardPage() {
                 </div>
                 
                 {/* Enhanced Calendar */}
-                <div className={`rounded-xl p-4 mb-6 ${
+                <div className={`rounded-xl px-2 py-3 mb-6 max-w-[350x] mx-auto ${
                   isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
                 }`}>
                   {/* Days of week header */}
@@ -742,7 +748,7 @@ export default function DashboardPage() {
                         <div key={`week1-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -778,7 +784,7 @@ export default function DashboardPage() {
                         <div key={`week2-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -810,7 +816,7 @@ export default function DashboardPage() {
                         <div key={`week3-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -842,7 +848,7 @@ export default function DashboardPage() {
                         <div key={`week4-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -875,7 +881,7 @@ export default function DashboardPage() {
                         <div key={`week5-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
