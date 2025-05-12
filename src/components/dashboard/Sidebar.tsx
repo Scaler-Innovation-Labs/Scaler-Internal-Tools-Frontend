@@ -72,7 +72,7 @@ export default function Sidebar() {
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                     isActive
                       ? isDark 
-                        ? 'bg-gray-25text-white' 
+                        ? 'bg-gray-800 text-blue-400 border-l-4 border-blue-500' 
                         : 'bg-gray-50 text-blue-600 border-l-4 border-blue-600'
                       : isDark
                         ? 'text-gray-400 hover:bg-gray-800/70 hover:text-gray-100'
@@ -81,7 +81,7 @@ export default function Sidebar() {
                 >
                   <span className={`flex items-center justify-center ${
                     isActive 
-                      ? isDark ? 'text-white' : 'text-blue-600' 
+                      ? isDark ? 'text-blue' : 'text-blue-600' 
                       : isDark ? 'text-gray-400' : 'text-gray-500'
                   }`}>
                     <item.icon className="w-5 h-5" />
