@@ -425,12 +425,12 @@ export default function DashboardPage() {
   return (
     <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
 
-      <main className="px-6 py-6">
+      <main className="pl-6">
       
         {/* Main content grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left column (larger) - refers to the mid section of dashboard */}
-                <div className="lg:col-span-9">
+                <div className="lg:col-span-9  py-6">
                 <div className="mx-auto max-w-5xl px-4 py-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -675,7 +675,7 @@ export default function DashboardPage() {
           
           {/* Right column (smaller) - refers to the farmost right section*/}
           <div
-            className={`lg:col-span-3 p-4 rounded-xl border ${
+            className={`lg:col-span-3 p-4  border ${
               isDark
                 ? "bg-gray-900 text-gray-100 border-gray-800"
                 : "bg-white text-gray-900 border-gray-200"
@@ -703,9 +703,9 @@ export default function DashboardPage() {
             {/* Calendar section */}
             <div className={`${isDark ? 'text-white' : 'text-gray-900'} mt-5`}>
               <div className="flex flex-col">
-                {/* Calendar Header with Month and Progress title */}
+                {/* Calendar Header with Month title */}
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className={`font-semibold text-lg`}>My Progress</h3>
+                  {/* <h3 className={`font-semibold text-lg`}>My Progress</h3> */}
                   <div className="flex items-center gap-2">
                     <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       JULY 2021
@@ -715,6 +715,36 @@ export default function DashboardPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </button>
+                  </div>
+                  <div className="relative">
+                    <div
+                      className={`group relative flex items-center justify-center w-6 h-6 rounded-full border text-[15px] cursor-pointer
+                        ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
+                    >
+                      i
+                      {/* Tooltip */}
+                      <div
+                        className={`absolute top-6 right-0 z-10 hidden w-max text-left group-hover:flex flex-col gap-1 rounded-md p-2 shadow-md
+                          ${isDark ? 'bg-gray-800 text-white border border-gray-600' : 'bg-white text-black border border-gray-300'}`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-blue-500" />
+                          <span>Classes</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-red-500" />
+                          <span>Exams</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-green-500" />
+                          <span>Events</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-purple-500" />
+                          <span>Deadlines</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
@@ -905,26 +935,7 @@ export default function DashboardPage() {
                       );
                     })}
                   </div>
-                  
-                  {/* Legend */}
-                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs">
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                      <span>Classes</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                      <span>Exams</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                      <span>Events</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-purple-500"></div>
-                      <span>Deadlines</span>
-                    </div>
-                  </div>
+              
                 </div>
                 
                 {/* Upcoming Activities */}
