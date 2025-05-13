@@ -13,7 +13,6 @@ export function MessFeedback() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: send feedback to API
     console.log({ rating, feedback });
   };
 

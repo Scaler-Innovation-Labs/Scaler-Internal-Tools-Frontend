@@ -13,10 +13,7 @@ export function QuickStats({ data }: QuickStatsProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  // Single-selection state for meal type
   const [selectedType, setSelectedType] = useState<string>(data.mealTypes[0] || '');
-
-  // Compute initials from vendorName (first and last word)
   const words = data.vendorName.split(' ');
   const initials = words.length > 1
     ? `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase()
@@ -42,12 +39,11 @@ export function QuickStats({ data }: QuickStatsProps) {
         </div>
         <div className="flex flex-wrap gap-2">
           {data.mealTypes.map(type => {
-            const isSelected = type === selectedType;
+            const isSelected = type === 'Veg';
             return (
-              <button
+              <span
                 key={type}
-                onClick={() => setSelectedType(type)}
-                className={`px-3 py-1 rounded-full text-xs font-medium focus:outline-none cursor-pointer transition-colors
+                className={`px-3 py-1 rounded-full text-xs font-medium select-none
                   ${isSelected
                     ? (isDark ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white')
                     : (isDark ? 'border border-gray-600 text-gray-300' : 'border border-gray-300 text-gray-800')
@@ -55,7 +51,7 @@ export function QuickStats({ data }: QuickStatsProps) {
                 `}
               >
                 {type}
-              </button>
+              </span>
             );
           })}
         </div>

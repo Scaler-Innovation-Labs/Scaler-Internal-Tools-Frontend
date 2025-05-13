@@ -4,7 +4,7 @@ export interface VendorCreateDto {
 }
 
 export interface VendorResponseDto {
-  vendorId: number; // Assuming Long maps to number
+  vendorId: number;
   vendorName: string;
 }
 
@@ -19,85 +19,84 @@ export interface VendorUpdateDto {
 // ========= Vendor Plan DTOs =========
 export interface VendorPlanCreateDto {
   planName: string;
-  vendorId: number; // Assuming Long maps to number
-  fee: number;      // Assuming Double maps to number
-  mealTypes: string[]; // Assuming Set of strings
+  vendorId: number;
+  fee: number;
+  mealTypes: string[];
 }
 
 export interface VendorPlanResponseDto {
-  vendorPlanId: number; // Assuming Long maps to number
+  vendorPlanId: number;
   planName: string;
-  vendorId: number;   // Assuming Long maps to number
-  fee: number;        // Assuming Double maps to number
-  mealTypes: string[]; // Assuming Set of strings
+  vendorId: number;
+  fee: number;
+  mealTypes: string[];
 }
 
 export interface VendorPlanSummaryDto {
   planName: string;
   vendorName: string;
-  fee: number;        // Assuming Double maps to number
-  mealTypes: string[]; // Assuming Set of strings
+  fee: number;
+  mealTypes: string[];
 }
 
 export interface VendorPlanUpdateDto {
-  planName?: string; // Assuming fields can be optional for updates
-  fee?: number;      // Assuming Double maps to number
+  planName?: string;
+  fee?: number;
 }
 
 // ========= Vendor Plan Selection DTOs =========
 export interface VendorPlanSelectionCreateDto {
-  vendorPlanId: number; // Assuming Long maps to number
-  userId: number;       // Assuming Long maps to number
-  selectedMonth: string; // Assuming LocalDate maps to string (e.g., "YYYY-MM-DD")
+  vendorPlanId: number;
+  userId: number;
+  selectedMonth: string;
 }
 
 export interface VendorPlanSelectionResponseDto {
-  vendorPlanSelectionId: number; // Assuming Long maps to number
-  userId: number;                // Assuming Long maps to number
-  vendorPlanId: number;          // Assuming Long maps to number
-  selectedMonth: string;          // Assuming LocalDate maps to string
+  vendorPlanSelectionId: number;
+  userId: number;
+  vendorPlanId: number;
+  selectedMonth: string;
 }
 
 export interface VendorPlanSelectionSummaryDto {
   vendorPlanName: string;
   vendorName: string;
-  selectedMonth: string; // Assuming LocalDate maps to string
-  mealTypes: string[];  // Assuming Set of strings
-  fee: number;           // Assuming double maps to number
+  selectedMonth: string;
+  mealTypes: string[];
+  fee: number;
 }
 
 export interface VendorPlanSelectionUpdateDto {
-  // The image shows "planId: Long", assuming it means vendorPlanId for consistency
-  vendorPlanId: number; // Assuming Long maps to number
+  vendorPlanId: number;
 }
 
 // Representing the structure of the Monthly Mess Menu from the UI
 export interface MonthlyMenuItem {
-  day: string; // e.g., "Wednesday"
-  date: string; // e.g., "4th September"
+  day: string;
+  date: string;
   breakfast: string[];
   lunch: string[];
   dinner: string[];
-  snack?: string[]; // Optional
+  snack?: string[];
 }
 
 export interface MonthlyMessMenu {
-  monthLabel: string; // e.g., "MENU: Wednesday, 4th September to Tuesday, 10th September 2024"
+  monthLabel: string;
   items: MonthlyMenuItem[];
 }
 
-// For the "Quick Stats" / Gaurav's Secret Recipe section
+// For the "Quick Stats"
 export interface UserPlanSelection {
-  vendorName: string;        // e.g., "Gaura's Secret Recipe"
-  planName: string;          // e.g., "Full Board (3 meals/day)"
-  planPeriod: string;        // e.g., "May 2025"
-  mealTypes: string[];       // e.g., ["Veg", "Non Veg", "Egg"]
+  vendorName: string;
+  planName: string;
+  planPeriod: string;
+  mealTypes: string[];
   paymentStatus: "Paid" | "Pending" | "Failed";
-  paymentDate?: string;      // e.g., "May 2025 - Paid"
+  paymentDate?: string;
 }
 
 // For Mess Feedback
 export interface MessFeedbackSubmission {
-  rating: number; // e.g., 4.5
+  rating: number;
   additionalFeedback?: string;
 } 

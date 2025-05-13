@@ -5,20 +5,40 @@ import { Bell } from 'lucide-react';
 import { MessMenu } from '@/components/dashboard/food-services/MessMenu';
 import { QuickStats } from '@/components/dashboard/food-services/QuickStats';
 import { MessFeedback } from '@/components/dashboard/food-services/MessFeedback';
-import type { UserPlanSelection } from '@/lib/types/food-services.d';
+  
+import { useState, useEffect } from 'react';
+import { getUserVendorPlanSelectionByUserId } from '@/lib/api/food-services';
+import type { VendorPlanSelectionSummaryDto, UserPlanSelection } from '@/lib/types/food-services.d';
 
-const mockStats: UserPlanSelection = {
-  vendorName: "Gaura's Secret Recipe",
-  planName: 'Full Board (3 meals/day)',
-  planPeriod: 'May 2025',
-  mealTypes: ['Veg', 'Non Veg', 'Egg'],
-  paymentStatus: 'Paid',
-  paymentDate: 'May 2025 - Paid',
-};
+const USER_ID = 1;
 
 export default function FoodServicesPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const [stats, setStats] = useState<UserPlanSelection | null>(null);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const summary: VendorPlanSelectionSummaryDto = await getUserVendorPlanSelectionByUserId(USER_ID);
+        setStats({
+          vendorName: summary.vendorName,
+          planName: summary.vendorPlanName,
+          planPeriod: summary.selectedMonth,
+          mealTypes: summary.mealTypes,
+          paymentStatus: 'Paid',
+          paymentDate: `${summary.selectedMonth} - Paid`,
+        });
+      } catch (err) {
+        console.error('Failed to fetch plan selection', err);
+      } finally {
+        setLoadingStats(false);
+      }
+    }
+    fetchStats();
+  }, []);
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -42,7 +62,10 @@ export default function FoodServicesPage() {
             <MessMenu imageUrl="/images/Sep 4th to 10th 2024 - menu (pg 1).png" />
           </div>
           <div className="space-y-6">
-            <QuickStats data={mockStats} />
+            {loadingStats
+              ? <div className={`text-center ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Loading stats…</div>
+              : stats && <QuickStats data={stats} />
+            }
             <MessFeedback />
           </div>
         </div>
@@ -50,3 +73,4 @@ export default function FoodServicesPage() {
     </div>
   );
 }
+ 

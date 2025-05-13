@@ -11,33 +11,29 @@ import type {
   VendorPlanSelectionResponseDto,
   VendorPlanSelectionSummaryDto,
   VendorPlanSelectionUpdateDto,
-  // ... other DTOs will be imported as needed
+  
 } from '../types/food-services.d';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api'; // Placeholder
-
-// Helper function for API calls (you might have a generic one already)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api'; 
 async function fetchApi(endpoint: string, options?: RequestInit) {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      // Add Authorization header if needed, e.g.:
-      // 'Authorization': `Bearer ${getAuthToken()}`,
+    
       ...options?.headers,
     },
   });
   if (!response.ok) {
-    // More sophisticated error handling can be added here
+    
     throw new Error(`API call failed: ${response.statusText}`);
   }
-  if (response.status === 204) { // No Content
+  if (response.status === 204) {
     return null;
   }
   return response.json();
 }
 
-// ========= Vendor Endpoints =========
 
 // GET /mess/admin/vendor/fetch/{id}
 export async function getVendorById(id: number): Promise<VendorResponseDto> {
@@ -72,7 +68,6 @@ export async function deleteVendor(id: number): Promise<string> { // Backend doc
   });
 }
 
-// ========= Vendor Plan Endpoints =========
 
 // GET /mess/admin/vendorPlan/fetch/{id}
 export async function getVendorPlanById(id: number): Promise<VendorPlanResponseDto> {
@@ -115,7 +110,6 @@ export async function deleteVendorPlan(id: number): Promise<string> { // Backend
   });
 }
 
-// ========= Vendor Plan Selection Endpoints (Admin) =========
 
 // POST /mess/admin/vendorPlanSelection/create
 export async function adminCreateVendorPlanSelection(data: VendorPlanSelectionCreateDto): Promise<VendorPlanSelectionResponseDto> {
@@ -134,17 +128,14 @@ export async function adminUpdateVendorPlanSelection(vendorPlanSelectionId: numb
 }
 
 // DELETE /mess/admin/vendorPlanSelection/delete/{id}
-// Note: API doc has {id}, but it might mean vendorPlanSelectionId. Using {id} as per doc.
 export async function adminDeleteVendorPlanSelection(id: number): Promise<string> {
   return fetchApi(`/mess/admin/vendorPlanSelection/delete/${id}`, {
     method: 'DELETE',
   });
 }
 
-// ========= Vendor Plan Selection Endpoints (User) =========
 
 // GET /mess/vendorPlanSelection/fetch/{id}
-// Note: API doc has {id}, assuming it means vendorPlanSelectionId for consistency with user update/delete.
 export async function getUserVendorPlanSelectionById(id: number): Promise<VendorPlanSelectionResponseDto> {
   return fetchApi(`/mess/vendorPlanSelection/fetch/${id}`);
 }
@@ -171,11 +162,8 @@ export async function updateUserVendorPlanSelection(vendorPlanSelectionId: numbe
 }
 
 // DELETE /mess/vendorPlanSelection/delete/{id}
-// Note: API doc has {id}, but it might mean vendorPlanSelectionId. Using {id} as per doc.
 export async function deleteUserVendorPlanSelection(id: number): Promise<string> {
   return fetchApi(`/mess/vendorPlanSelection/delete/${id}`, {
     method: 'DELETE',
   });
 }
-
-// TODO: Add functions for Vendor Plan and Vendor Plan Selection endpoints 
