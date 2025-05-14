@@ -58,8 +58,8 @@ export default function Sidebar() {
       </div>
       
       {/* Navigation section */}
-      <nav className="flex-1 overflow-y-auto py-6">
-        <ul className="space-y-1 px-3">
+      <nav className="flex-1 overflow-y-auto py-6 mt-12">
+        <ul className="space-y-4 px-3">
           {navigation.map((item) => {
             const isActive = pathname === item.href || 
                              (item.href !== '/dashboard' && pathname.startsWith(item.href));
@@ -67,22 +67,22 @@ export default function Sidebar() {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition-all ${
                     isActive
                       ? isDark 
-                        ? 'bg-gray-700 text-blue-400 border-l-4 border-blue-500' 
+                        ? 'bg-gray-700 text-white border-l-4 border-blue-500' 
                         : 'bg-gray-50 text-blue-600 border-l-4 border-blue-600'
                       : isDark
-                        ? 'text-gray-400 hover:bg-gray-700 hover:text-gray-100'
+                        ? 'text-white hover:bg-gray-700 hover:text-white'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <span className={`flex items-center justify-center ${
                     isActive 
-                      ? isDark ? 'text-blue' : 'text-blue-600' 
-                      : isDark ? 'text-gray-400' : 'text-gray-500'
+                      ? isDark ? 'text-white' : 'text-blue-600' 
+                      : isDark ? 'text-white' : 'text-gray-500'
                   }`}>
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="w-6 h-6" />
                   </span>
                   <span>{item.name}</span>
                 </Link>
