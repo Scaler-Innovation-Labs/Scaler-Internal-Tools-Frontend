@@ -9,8 +9,6 @@ import {
   Search, 
   FileQuestion, 
   Settings, 
-  Sun, 
-  Moon, 
   LogOut 
 } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -25,16 +23,16 @@ const navigation = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === "dark";
 
   return (
     <aside className={`w-64 min-h-screen flex flex-col ${
       isDark 
-        ? 'bg-gray-900 text-gray-100' 
+        ? 'bg-[#0D0D0D] text-gray-100' 
         : 'bg-white text-gray-900'
     } border-r ${
-      isDark ? 'border-gray-800' : 'border-gray-200'
+      isDark ? 'border-[#0D0D0D]' : 'border-gray-200'
     } shadow-sm`}>
       {/* Logo header with gradient accent */}
       <div className="relative">
@@ -72,10 +70,10 @@ export default function Sidebar() {
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                     isActive
                       ? isDark 
-                        ? 'bg-gray-800 text-blue-400 border-l-4 border-blue-500' 
+                        ? 'bg-gray-700 text-blue-400 border-l-4 border-blue-500' 
                         : 'bg-gray-50 text-blue-600 border-l-4 border-blue-600'
                       : isDark
-                        ? 'text-gray-400 hover:bg-gray-800/70 hover:text-gray-100'
+                        ? 'text-gray-400 hover:bg-gray-700 hover:text-gray-100'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
@@ -95,29 +93,7 @@ export default function Sidebar() {
       </nav>
       
       {/* User section */}
-      <div className={`px-3 py-4 mt-auto border-t ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
-        <div className="flex mb-4 items-center">
-          <button
-            onClick={() => setTheme(isDark ? "light" : "dark")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              isDark
-                ? 'text-gray-400 hover:bg-gray-800/70 hover:text-gray-100'
-                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-            }`}
-          >
-            <span>
-              {isDark ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </span>
-            <span>
-              {isDark ? 'Light Mode' : 'Dark Mode'}
-            </span>
-          </button>
-        </div>
-
+      <div className={`px-3 py-4 mt-auto border-t ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
         <Link
           href="/logout"
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${

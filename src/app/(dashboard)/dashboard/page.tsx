@@ -5,6 +5,7 @@ import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Too
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 import { useState } from "react";
+import UserDetails from "@/components/dashboard/UserDetails";
 
 // Mock data
 const announcements: Announcement[] = [
@@ -423,28 +424,12 @@ export default function DashboardPage() {
   };
   
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
-
+    <div className={`min-h-screen ${isDark ? 'bg-[#161616]' : 'bg-gray-50'}`}>
       <main className="pl-6">
-      
         {/* Main content grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left column (larger) - refers to the mid section of dashboard */}
-                <div className="lg:col-span-9  py-6">
-                <div className="mx-auto max-w-5xl px-4 py-3">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <Search className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="Search Courses, Documents, Activities..." 
-                  className={`pl-10 pr-4 py-3 w-full text-base rounded-xl ${
-                    isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'
-                  } border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                />
-              </div>
-            </div>
+          <div className="lg:col-span-9 py-6">
             {/* Header/Welcome Card - More Compact */}
             <div className="relative overflow-hidden bg-blue-500 rounded-xl p-5 mb-6">
               <div className="flex flex-wrap items-center justify-between">
@@ -481,25 +466,29 @@ export default function DashboardPage() {
             </div>
 
             {/* Announcements Section */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h3 className={`font-semibold text-lg`}>Announcements</h3>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+            <div className={`mb-6 rounded-xl overflow-hidden ${
+              isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
+            }`}>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <h3 className={`font-semibold text-lg`}>Announcements</h3>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
+                      <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
+                      <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+                    </div>
                   </div>
+                  <Link href="/announcements" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                    See all
+                  </Link>
                 </div>
-                <Link href="/announcements" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                  See all
-                </Link>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {announcements.map(announcement => (
-                  <AnnouncementCard key={announcement.id} announcement={announcement} />
-                ))}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {announcements.map(announcement => (
+                    <AnnouncementCard key={announcement.id} announcement={announcement} />
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -518,7 +507,7 @@ export default function DashboardPage() {
               
               {/* Lost and Found Carousel */}
               <div className={`rounded-xl overflow-hidden ${
-                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                isDark ? 'bg-[#0D0D0D] border border-[#0D0D0D]' : 'bg-white shadow-sm'
               }`}>
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                   <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
@@ -674,32 +663,12 @@ export default function DashboardPage() {
           </div>
           
           {/* Right column (smaller) - refers to the farmost right section*/}
-          <div
-            className={`lg:col-span-3 p-4  border ${
-              isDark
-                ? "bg-gray-900 text-gray-100 border-gray-800"
-                : "bg-white text-gray-900 border-gray-200"
-            }`}
-          >
-          <header className={`px-4 pb-2 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
-          <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <button className={`p-2 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                    <Bell className={`h-5 w-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
-                  </button>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                    AY
-                  </div>
-                  <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Adeniyi Ayo</span>
-                  <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-                </div>
-              </div>
-            </div>
-          </header>
+          <div className={`lg:col-span-3 p-4 border ${
+            isDark
+              ? "bg-[#0D0D0D] text-gray-100 border-[#0D0D0D]"
+              : "bg-white text-gray-900 border-gray-200"
+          }`}>
+            <UserDetails />
             {/* Calendar section */}
             <div className={`${isDark ? 'text-white' : 'text-gray-900'} mt-5`}>
               <div className="flex flex-col">
@@ -750,7 +719,7 @@ export default function DashboardPage() {
                 
                 {/* Enhanced Calendar */}
                 <div className={`rounded-xl px-2 py-3 mb-6 max-w-[350x] mx-auto ${
-                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                  isDark ? 'bg-#000000 border border-black' : 'bg-white shadow-sm'
                 }`}>
                   {/* Days of week header */}
                   <div className="grid grid-cols-7 gap-1 mb-2">
@@ -1087,7 +1056,7 @@ export default function DashboardPage() {
                         
                         {/* Assignees */}
                         <div className="flex items-center gap-1 mb-3">
-                          {ticket.assignees.map((assignee, idx) => (
+                          {ticket.assignees.map((assignee: string, idx: number) => (
                             <div 
                               key={idx} 
                               className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
@@ -1096,7 +1065,7 @@ export default function DashboardPage() {
                                 'bg-orange-100 text-orange-700'
                               }`}
                             >
-                              {assignee.split(' ').map(word => word[0]).join('')}
+                              {assignee.split(' ').map((word: string) => word[0]).join('')}
                             </div>
                           ))}
                         </div>
