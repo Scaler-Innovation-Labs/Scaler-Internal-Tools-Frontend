@@ -492,58 +492,70 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Lost and Found Section */}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-semibold">Lost and Found</h2>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
-                    <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
-                    <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+            {/* Lost and Found and Mess Menu Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Mess Menu Section */}
+              <div className={`rounded-xl overflow-hidden ${
+                isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
+              }`}>
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <h3 className={`font-semibold text-lg`}>Mess Menu</h3>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`h-2 w-2 rounded-full bg-orange-500`}></div>
+                        <div className={`h-2 w-2 rounded-full bg-green-500`}></div>
+                        <div className={`h-2 w-2 rounded-full bg-blue-500`}></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="relative">
+                    {/* Mess Menu Image */}
+                    <div className="w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative">
+                      <img 
+                        src="/images/mess-menu.jpg" 
+                        alt="Mess Menu"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <div className={`w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hidden`}>
+                        <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      
+                      {/* Week indicator with transparent gradient - always visible */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-500 to-transparent p-4">
+                        <div className="text-white text-sm font-medium">
+                          Week 1
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              
-              {/* Lost and Found Carousel */}
+
+              {/* Lost and Found Section */}
               <div className={`rounded-xl overflow-hidden ${
-                isDark ? 'bg-[#0D0D0D] border border-[#0D0D0D]' : 'bg-white shadow-sm'
+                isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
               }`}>
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
-                  
-                  {/* Toggle between Lost and Found */}
-                  <div className="flex items-center rounded-lg border overflow-hidden text-sm font-medium bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "lost" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("lost");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Lost
-                    </button>
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "found" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("found");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Found
-                    </button>
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <h3 className={`font-semibold text-lg`}>Lost and Found</h3>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
+                        <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
+                        <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                {filteredItems.length > 0 ? (
+                  
+                  {/* Lost and Found Carousel */}
                   <div className="relative">
                     <div className="flex h-64 relative">
                       {/* Image section */}
@@ -551,21 +563,29 @@ export default function DashboardPage() {
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 opacity-90"></div>
                         <div className="w-48 h-48 bg-white rounded-xl shadow-xl relative z-10 overflow-hidden">
                           {filteredItems[currentItemIndex]?.image ? (
-                            <img 
-                              src={filteredItems[currentItemIndex].image} 
-                              alt={filteredItems[currentItemIndex].itemName}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                // Fallback to placeholder if image fails to load
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                              }}
-                            />
+                            <>
+                              <img 
+                                src={filteredItems[currentItemIndex].image} 
+                                alt={filteredItems[currentItemIndex].itemName}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                            </>
                           ) : null}
                           <div className={`w-full h-full absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 ${filteredItems[currentItemIndex]?.image ? 'hidden' : ''}`}>
                             <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
+                          </div>
+                          {/* Purple gradient bar with item name and description - always visible */}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-700 via-purple-500 to-transparent p-3">
+                            <div className="text-white font-bold text-base">
+                              {filteredItems[currentItemIndex]?.itemName}
+                            </div>
+  
                           </div>
                         </div>
                         
@@ -577,7 +597,7 @@ export default function DashboardPage() {
                         {/* Navigation buttons */}
                         <button 
                           onClick={goToPrevItem} 
-                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-black hover:bg-purple-700 transition-colors z-20 border-2 border-white"
                         >
                           <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -586,7 +606,7 @@ export default function DashboardPage() {
                         
                         <button 
                           onClick={goToNextItem} 
-                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-black hover:bg-purple-700 transition-colors z-20 border-2 border-white"
                         >
                           <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -629,35 +649,10 @@ export default function DashboardPage() {
                             </p>
                           </div>
                         </div>
-                        
-                        {/* Pagination dots */}
-                        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-1.5">
-                          {filteredItems.map((_, index) => (
-                            <button 
-                              key={index}
-                              onClick={() => setCurrentItemIndex(index)}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentItemIndex 
-                                  ? 'bg-blue-500 w-5' 
-                                  : isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'
-                              }`}
-                              aria-label={`Go to item ${index + 1}`}
-                            />
-                          ))}
-                        </div>
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div className={`h-48 flex items-center justify-center text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    <div>
-                      <svg className="w-12 h-12 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 16h.01M17 18v1a1 1 0 01-1 1H8a1 1 0 01-1-1v-1m5-5a4 4 0 100-8 4 4 0 000 8z" />
-                      </svg>
-                      <p>No {itemType} items to display at the moment.</p>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
