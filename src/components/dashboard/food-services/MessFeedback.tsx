@@ -17,7 +17,7 @@ export function MessFeedback() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`p-4 rounded-lg border shadow-sm ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+    <form onSubmit={handleSubmit} className={`p-4 rounded-3xl shadow-2xl ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
       <h2 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>Mess Feedback</h2>
       <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'} mb-4`}>Please rate your experience below</p>
       <div className="flex items-center gap-1 mb-2">
@@ -46,7 +46,7 @@ export function MessFeedback() {
       />
       <button
         type="submit"
-        className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-95 transition"
+        className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-3xl hover:opacity-95 transition shadow-lg"
       >
         Submit feedback
       </button>

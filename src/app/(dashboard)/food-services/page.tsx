@@ -42,7 +42,7 @@ export default function FoodServicesPage() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <header className="px-6 py-4 sticky top-0 z-10 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+      <header className={`px-6 py-4 sticky top-0 z-10 text-white bg-gradient-to-r from-[#2E4DEE] to-[#040F75]`}>
         <div className="container mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Food Services</h1>

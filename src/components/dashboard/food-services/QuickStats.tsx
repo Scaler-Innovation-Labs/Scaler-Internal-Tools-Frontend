@@ -20,7 +20,7 @@ export function QuickStats({ data }: QuickStatsProps) {
     : data.vendorName.slice(0, 2).toUpperCase();
 
   return (
-    <div className={`p-4 rounded-lg border shadow-sm ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+    <div className={`p-4 rounded-3xl shadow-2xl ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
       <h2 className={`text-lg font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Quick Stats</h2>
       <div className="space-y-4">
         <div className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export function QuickStats({ data }: QuickStatsProps) {
             );
           })}
         </div>
-        <div className={`mt-4 p-4 rounded-lg border shadow-sm ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+        <div className={`mt-4 p-4 rounded-3xl shadow-lg ${isDark ? 'bg-gray-700' : 'bg-gray-50'} border ${isDark ? 'border-gray-600' : 'border-gray-200'}`}>
           <div className="flex items-center gap-2">
             <CheckCircle className={`w-5 h-5 ${isDark ? 'text-green-400' : 'text-green-600'}`} />
             <p className={`text-sm font-medium ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Payment Status</p>
