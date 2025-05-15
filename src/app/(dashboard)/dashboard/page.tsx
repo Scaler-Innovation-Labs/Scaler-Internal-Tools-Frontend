@@ -5,6 +5,7 @@ import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Too
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 import { useState } from "react";
+import UserDetails from "@/components/dashboard/UserDetails";
 
 // Mock data
 const announcements: Announcement[] = [
@@ -415,7 +416,7 @@ export default function DashboardPage() {
   };
   
   // Group tickets by status
-  const ticketsByStatus = {
+  const ticketsByStatus : { [key: string]: any[] }= {
     reported: tickets.filter(ticket => ticket.status === "reported"),
     noticed: tickets.filter(ticket => ticket.status === "noticed"),
     work_started: tickets.filter(ticket => ticket.status === "work_started"),
@@ -423,75 +424,12 @@ export default function DashboardPage() {
   };
   
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-black' : 'bg-gray-50'}`}>
-      <header className={`px-4 py-2 ${isDark ? 'bg-black border-gray-800' : 'bg-white border-gray-200'} border-b sticky top-0 z-10`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              <div className="flex items-center mr-2">
-                <svg className="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                  <path fill="currentColor" d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
-                </svg>
-              </div>
-              <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>SST Internals</span>
-            </div>
-            
-            <div className={`h-5 w-px ${isDark ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-            
-            <div className="relative w-64">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Search className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-              </div>
-              <input 
-                type="text" 
-                placeholder="Search Courses, Documents, Activities..." 
-                className={`pl-10 pr-4 py-2 w-full text-sm rounded-md ${
-                  isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-gray-50 text-gray-900 border-gray-300'
-                } border focus:outline-none focus:ring-1 focus:ring-blue-500`}
-              />
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              <button className={`p-2 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                <Bell className={`h-5 w-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
-              </button>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                AY
-              </div>
-              <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Adeniyi Ayo</span>
-              <ChevronDown className={`h-4 w-4 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Search bar at top */}
-      <div className="mx-auto max-w-5xl px-4 py-3">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className={`h-5 w-5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-          </div>
-          <input 
-            type="text" 
-            placeholder="Search Courses, Documents, Activities..." 
-            className={`pl-12 pr-4 py-3 w-full text-base rounded-xl ${
-              isDark ? 'bg-gray-900 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'
-            } border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          />
-        </div>
-      </div>
-
-      <main className="px-6 py-6">
+    <div className={`min-h-screen ${isDark ? 'bg-[#161616]' : 'bg-gray-50'}`}>
+      <main className="pl-6">
         {/* Main content grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left column (larger) */}
-          <div className="lg:col-span-8">
+          {/* Left column (larger) - refers to the mid section of dashboard */}
+          <div className="lg:col-span-9 py-6">
             {/* Header/Welcome Card - More Compact */}
             <div className="relative overflow-hidden bg-blue-500 rounded-xl p-5 mb-6">
               <div className="flex flex-wrap items-center justify-between">
@@ -528,80 +466,96 @@ export default function DashboardPage() {
             </div>
 
             {/* Announcements Section */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h3 className={`font-semibold text-lg`}>Announcements</h3>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
-                    <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+            <div className={`mb-6 rounded-xl overflow-hidden ${
+              isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
+            }`}>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <h3 className={`font-semibold text-lg`}>Announcements</h3>
+                    <div className="flex items-center gap-1.5">
+                      <div className={`h-2 w-2 rounded-full bg-blue-600`}></div>
+                      <div className={`h-2 w-2 rounded-full bg-red-600`}></div>
+                      <div className={`h-2 w-2 rounded-full bg-green-600`}></div>
+                    </div>
                   </div>
+                  <Link href="/announcements" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
+                    See all
+                  </Link>
                 </div>
-                <Link href="/announcements" className={`text-sm font-medium ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} transition-colors`}>
-                  See all
-                </Link>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {announcements.map(announcement => (
-                  <AnnouncementCard key={announcement.id} announcement={announcement} />
-                ))}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {announcements.map(announcement => (
+                    <AnnouncementCard key={announcement.id} announcement={announcement} />
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Lost and Found Section */}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-semibold">Lost and Found</h2>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
-                    <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
-                    <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+            {/* Lost and Found and Mess Menu Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Mess Menu Section */}
+              <div className={`rounded-xl overflow-hidden ${
+                isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
+              }`}>
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <h3 className={`font-semibold text-lg`}>Mess Menu</h3>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`h-2 w-2 rounded-full bg-orange-500`}></div>
+                        <div className={`h-2 w-2 rounded-full bg-green-500`}></div>
+                        <div className={`h-2 w-2 rounded-full bg-blue-500`}></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="relative">
+                    {/* Mess Menu Image */}
+                    <div className="w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative">
+                      <img 
+                        src="/images/mess-menu.jpg" 
+                        alt="Mess Menu"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <div className={`w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hidden`}>
+                        <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      
+                      {/* Week indicator with transparent gradient - always visible */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-500 to-transparent p-4">
+                        <div className="text-white text-sm font-medium">
+                          Week 1
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              
-              {/* Lost and Found Carousel */}
+
+              {/* Lost and Found Section */}
               <div className={`rounded-xl overflow-hidden ${
-                isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                isDark ? 'bg-[#000000] border border-[#0D0D0D]' : 'bg-white shadow-sm'
               }`}>
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Lost and Found</h3>
-                  
-                  {/* Toggle between Lost and Found */}
-                  <div className="flex items-center rounded-lg border overflow-hidden text-sm font-medium bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "lost" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("lost");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Lost
-                    </button>
-                    <button 
-                      className={`px-3 py-1.5 ${
-                        itemType === "found" 
-                          ? "bg-blue-500 text-white" 
-                          : isDark ? "text-gray-300" : "text-gray-700"
-                      }`}
-                      onClick={() => {
-                        setItemType("found");
-                        setCurrentItemIndex(0);
-                      }}
-                    >
-                      Found
-                    </button>
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <h3 className={`font-semibold text-lg`}>Lost and Found</h3>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
+                        <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
+                        <div className={`h-2 w-2 rounded-full ${typeColors.club.bg}`}></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                {filteredItems.length > 0 ? (
+                  
+                  {/* Lost and Found Carousel */}
                   <div className="relative">
                     <div className="flex h-64 relative">
                       {/* Image section */}
@@ -609,21 +563,29 @@ export default function DashboardPage() {
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 opacity-90"></div>
                         <div className="w-48 h-48 bg-white rounded-xl shadow-xl relative z-10 overflow-hidden">
                           {filteredItems[currentItemIndex]?.image ? (
-                            <img 
-                              src={filteredItems[currentItemIndex].image} 
-                              alt={filteredItems[currentItemIndex].itemName}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                // Fallback to placeholder if image fails to load
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                              }}
-                            />
+                            <>
+                              <img 
+                                src={filteredItems[currentItemIndex].image} 
+                                alt={filteredItems[currentItemIndex].itemName}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                            </>
                           ) : null}
                           <div className={`w-full h-full absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 ${filteredItems[currentItemIndex]?.image ? 'hidden' : ''}`}>
                             <svg className="w-14 h-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
+                          </div>
+                          {/* Purple gradient bar with item name and description - always visible */}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-700 via-purple-500 to-transparent p-3">
+                            <div className="text-white font-bold text-base">
+                              {filteredItems[currentItemIndex]?.itemName}
+                            </div>
+  
                           </div>
                         </div>
                         
@@ -635,7 +597,7 @@ export default function DashboardPage() {
                         {/* Navigation buttons */}
                         <button 
                           onClick={goToPrevItem} 
-                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                          className="absolute left-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-black hover:bg-purple-700 transition-colors z-20 border-2 border-white"
                         >
                           <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -644,7 +606,7 @@ export default function DashboardPage() {
                         
                         <button 
                           onClick={goToNextItem} 
-                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20"
+                          className="absolute right-3 top-1/2 -mt-6 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-black hover:bg-purple-700 transition-colors z-20 border-2 border-white"
                         >
                           <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -687,47 +649,27 @@ export default function DashboardPage() {
                             </p>
                           </div>
                         </div>
-                        
-                        {/* Pagination dots */}
-                        <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-1.5">
-                          {filteredItems.map((_, index) => (
-                            <button 
-                              key={index}
-                              onClick={() => setCurrentItemIndex(index)}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentItemIndex 
-                                  ? 'bg-blue-500 w-5' 
-                                  : isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'
-                              }`}
-                              aria-label={`Go to item ${index + 1}`}
-                            />
-                          ))}
-                        </div>
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div className={`h-48 flex items-center justify-center text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    <div>
-                      <svg className="w-12 h-12 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 16h.01M17 18v1a1 1 0 01-1 1H8a1 1 0 01-1-1v-1m5-5a4 4 0 100-8 4 4 0 000 8z" />
-                      </svg>
-                      <p>No {itemType} items to display at the moment.</p>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
           
-          {/* Right column (smaller) */}
-          <div className="lg:col-span-4">
+          {/* Right column (smaller) - refers to the farmost right section*/}
+          <div className={`lg:col-span-3 p-4 border ${
+            isDark
+              ? "bg-[#0D0D0D] text-gray-100 border-[#0D0D0D]"
+              : "bg-white text-gray-900 border-gray-200"
+          }`}>
+            <UserDetails />
             {/* Calendar section */}
-            <div className={`${isDark ? 'text-white' : 'text-gray-900'}`}>
+            <div className={`${isDark ? 'text-white' : 'text-gray-900'} mt-5`}>
               <div className="flex flex-col">
-                {/* Calendar Header with Month and Progress title */}
+                {/* Calendar Header with Month title */}
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className={`font-semibold text-lg`}>My Progress</h3>
+                  {/* <h3 className={`font-semibold text-lg`}>My Progress</h3> */}
                   <div className="flex items-center gap-2">
                     <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       JULY 2021
@@ -738,11 +680,41 @@ export default function DashboardPage() {
                       </svg>
                     </button>
                   </div>
+                  <div className="relative">
+                    <div
+                      className={`group relative flex items-center justify-center w-6 h-6 rounded-full border text-[15px] cursor-pointer
+                        ${isDark ? 'border-white text-white' : 'border-black text-black'}`}
+                    >
+                      i
+                      {/* Tooltip */}
+                      <div
+                        className={`absolute top-6 right-0 z-10 hidden w-max text-left group-hover:flex flex-col gap-1 rounded-md p-2 shadow-md
+                          ${isDark ? 'bg-gray-800 text-white border border-gray-600' : 'bg-white text-black border border-gray-300'}`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-blue-500" />
+                          <span>Classes</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-red-500" />
+                          <span>Exams</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-green-500" />
+                          <span>Events</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-3 w-3 rounded-full bg-purple-500" />
+                          <span>Deadlines</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Enhanced Calendar */}
-                <div className={`rounded-xl p-4 mb-6 ${
-                  isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white shadow-sm'
+                <div className={`rounded-xl px-2 py-3 mb-6 max-w-[350x] mx-auto ${
+                  isDark ? 'bg-#000000 border border-black' : 'bg-white shadow-sm'
                 }`}>
                   {/* Days of week header */}
                   <div className="grid grid-cols-7 gap-1 mb-2">
@@ -770,7 +742,7 @@ export default function DashboardPage() {
                         <div key={`week1-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -806,7 +778,7 @@ export default function DashboardPage() {
                         <div key={`week2-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -838,7 +810,7 @@ export default function DashboardPage() {
                         <div key={`week3-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -870,7 +842,7 @@ export default function DashboardPage() {
                         <div key={`week4-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -903,7 +875,7 @@ export default function DashboardPage() {
                         <div key={`week5-${idx}`} className="text-center">
                           <button 
                             className={`
-                              w-10 h-10 rounded-full flex items-center justify-center text-sm 
+                              w-8 h-8 rounded-full flex items-center justify-center text-sm 
                               transition-all duration-200 hover:scale-105
                               ${isCurrentDay 
                                 ? 'bg-blue-500 text-white font-medium' 
@@ -927,26 +899,7 @@ export default function DashboardPage() {
                       );
                     })}
                   </div>
-                  
-                  {/* Legend */}
-                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs">
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                      <span>Classes</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                      <span>Exams</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                      <span>Events</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-3 w-3 rounded-full bg-purple-500"></div>
-                      <span>Deadlines</span>
-                    </div>
-                  </div>
+              
                 </div>
                 
                 {/* Upcoming Activities */}
@@ -1098,7 +1051,7 @@ export default function DashboardPage() {
                         
                         {/* Assignees */}
                         <div className="flex items-center gap-1 mb-3">
-                          {ticket.assignees.map((assignee, idx) => (
+                          {ticket.assignees.map((assignee: string, idx: number) => (
                             <div 
                               key={idx} 
                               className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
@@ -1107,7 +1060,7 @@ export default function DashboardPage() {
                                 'bg-orange-100 text-orange-700'
                               }`}
                             >
-                              {assignee.split(' ').map(word => word[0]).join('')}
+                              {assignee.split(' ').map((word: string) => word[0]).join('')}
                             </div>
                           ))}
                         </div>
