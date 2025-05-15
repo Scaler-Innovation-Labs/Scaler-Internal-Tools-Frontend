@@ -546,7 +546,37 @@ export default function DashboardPage() {
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <h3 className={`font-semibold text-lg`}>Lost and Found</h3>
+                      <div className="flex items-center gap-1">
+                        <button 
+                          onClick={() => setItemType("lost")}
+                          className={`text-lg font-semibold transition-colors ${
+                            itemType === "lost" 
+                              ? isDark 
+                                ? 'text-blue-400' 
+                                : 'text-blue-600'
+                              : isDark 
+                                ? 'text-gray-400' 
+                                : 'text-gray-600'
+                          }`}
+                        >
+                          Lost
+                        </button>
+                        <span className={`text-lg font-semibold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>|</span>
+                        <button 
+                          onClick={() => setItemType("found")}
+                          className={`text-lg font-semibold transition-colors ${
+                            itemType === "found" 
+                              ? isDark 
+                                ? 'text-blue-400' 
+                                : 'text-blue-600'
+                              : isDark 
+                                ? 'text-gray-400' 
+                                : 'text-gray-600'
+                          }`}
+                        >
+                          Found
+                        </button>
+                      </div>
                       <div className="flex items-center gap-1.5">
                         <div className={`h-2 w-2 rounded-full ${typeColors.instructor.bg}`}></div>
                         <div className={`h-2 w-2 rounded-full ${typeColors.exam.bg}`}></div>
@@ -644,7 +674,7 @@ export default function DashboardPage() {
                           </div>
                           <div>
                             <span className={`text-sm font-medium block mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Description: </span>
-                            <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                            <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-2 max-h-[2.5rem] overflow-hidden`}>
                               {filteredItems[currentItemIndex]?.description}
                             </p>
                           </div>
