@@ -59,6 +59,7 @@ export interface VendorPlanSelectionResponseDto {
 }
 
 export interface VendorPlanSelectionSummaryDto {
+  vendorPlanSelectionId?: number;
   vendorPlanName: string;
   vendorName: string;
   selectedMonth: string;
@@ -87,9 +88,11 @@ export interface MonthlyMessMenu {
 
 // For the "Quick Stats"
 export interface UserPlanSelection {
+  id?: number;
   vendorName: string;
   planName: string;
-  planPeriod: string;
+  planPeriod?: string;
+  price?: number;
   mealTypes: string[];
   paymentStatus: "Paid" | "Pending" | "Failed";
   paymentDate?: string;

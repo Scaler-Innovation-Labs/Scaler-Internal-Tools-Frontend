@@ -4,20 +4,24 @@ import { useTheme } from "next-themes";
 
 interface MessMenuProps {
   imageUrl?: string;
+  vendorName?: string;
 }
 
-export function MessMenu({ imageUrl }: MessMenuProps) {
+export function MessMenu({ imageUrl, vendorName = "Current Vendor" }: MessMenuProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   return (
     <div className={`p-6 rounded-3xl shadow-2xl ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
-      <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Monthly Mess Menu</h2>
+      <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+        Weekly Mess Menu
+        {vendorName && <span className="ml-2 text-sm font-normal text-gray-400">({vendorName})</span>}
+      </h2>
       <div className="mt-4 overflow-auto">
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt="Monthly Mess Menu"
+            alt={`${vendorName} Weekly Mess Menu`}
             className="w-full rounded-md"
           />
         ) : (
