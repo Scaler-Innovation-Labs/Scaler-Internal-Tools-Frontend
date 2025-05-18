@@ -4,8 +4,9 @@ import { useTheme } from "next-themes";
 import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Tool } from "lucide-react";
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserDetails from "@/components/dashboard/UserDetails";
+import Cookies from "js-cookie";
 
 // Mock data
 const announcements: Announcement[] = [
@@ -422,6 +423,25 @@ export default function DashboardPage() {
     work_started: tickets.filter(ticket => ticket.status === "work_started"),
     work_done: tickets.filter(ticket => ticket.status === "work_done")
   };
+
+  useEffect(() => {
+    // Set dummy cookies for demonstration; replace with real tokens as needed
+    Cookies.set("api/access", "dummy-access-token", { path: "/", secure: true, sameSite: "strict" });
+    Cookies.set("api/refresh", "dummy-refresh-token", { path: "/", secure: true, sameSite: "strict" });
+
+    // Set dummy user data in localStorage
+    window.localStorage.setItem(
+      "user",
+      JSON.stringify({
+        username: "john_doe",
+        email: "john@example.com",
+        userRoles: [
+          { roleName: "ROLE_STUDENt" },
+          { roleName: "ROLE_ADMIN" }
+        ]
+      })
+    );
+  }, []);
   
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#161616]' : 'bg-gray-50'}`}>

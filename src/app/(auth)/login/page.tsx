@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import AuthLayout from "../components/AuthComponent";
 import { useTheme } from "next-themes";
+import { loginUser } from "@/context/authApi";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -121,7 +122,11 @@ export default function LoginPage() {
               </span>
             </div>
             {/* Google Icon Button */}
-            <button className="flex items-center gap-2 justify-center rounded-lg border border-gray-600 px-4 py-3 hover:bg-gray-800 transition text-[var(--text-primary)] text-sm font-medium w-full">
+            <button
+              className="flex items-center gap-2 justify-center rounded-lg border border-gray-600 px-4 py-3 hover:bg-gray-800 transition text-[var(--text-primary)] text-sm font-medium w-full"
+              type="button"
+              onClick={loginUser}
+            >
               <Image src="/images/Google.svg" alt="Google" width={20} height={20} />
               <span>Sign in with Google</span>
             </button>
