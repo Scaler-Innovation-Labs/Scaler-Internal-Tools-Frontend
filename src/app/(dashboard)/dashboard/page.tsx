@@ -5,9 +5,9 @@ import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Too
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 import { useEffect, useState } from "react";
-import UserDetails from "@/components/dashboard/UserDetails";
 import Cookies from "js-cookie";
-
+import UserDetails from "@/components/dashboard/UserDetails";
+import api from "@/context/authApi";
 // Mock data
 const announcements: Announcement[] = [
   {
@@ -397,6 +397,22 @@ export default function DashboardPage() {
   const isDark = theme === "dark";
   const [itemType, setItemType] = useState<"lost" | "found">("lost");
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
+    useEffect(() => {
+    async function fetchAnnouncements() {
+        try {
+           const token = Cookies.get("accessToken");
+            await api.get("/api/announcements", {
+            // headers: {
+            //     Authorization: `Bearer ${token}`,
+            // },
+            });
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    fetchAnnouncements();
+    }, []);
   
   // Filter lost and found items based on the selected type
   const filteredItems = lostAndFoundItems.filter(item => 
@@ -425,22 +441,7 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    // Set dummy cookies for demonstration; replace with real tokens as needed
-    Cookies.set("api/access", "dummy-access-token", { path: "/", secure: true, sameSite: "strict" });
-    Cookies.set("api/refresh", "dummy-refresh-token", { path: "/", secure: true, sameSite: "strict" });
-
-    // Set dummy user data in localStorage
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({
-        username: "john_doe",
-        email: "john@example.com",
-        userRoles: [
-          { roleName: "ROLE_STUDENt" },
-          { roleName: "ROLE_ADMIN" }
-        ]
-      })
-    );
+    
   }, []);
   
   return (

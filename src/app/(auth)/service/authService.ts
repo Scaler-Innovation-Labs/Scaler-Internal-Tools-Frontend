@@ -4,7 +4,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function refreshToken() {
   const accessToken = window.localStorage.getItem("accessToken") || "";
-  const response = await fetch(`${baseUrl}/refresh`, {
+  const response = await fetch(`${baseUrl}/auth/refresh`, {
     method: "POST",
     credentials: "include",
     headers: {

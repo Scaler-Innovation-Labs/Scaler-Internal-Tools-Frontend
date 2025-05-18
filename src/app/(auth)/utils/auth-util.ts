@@ -21,16 +21,6 @@ export function isLoggedIn(): boolean {
   return !!userStr;
 }
 
-export function withAuthHeaders(config: any = {}) {
-  // Try to get access token from cookie first, fallback to localStorage
-  let accessToken = Cookies.get("accessToken") || window.localStorage.getItem("accessToken");
-  if (!config.headers) config.headers = {};
-  if (accessToken) {
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-  return config;
-}
-
 // Example usage:
 // import axios from "axios";
 // import { withAuthHeaders } from "@/app/(auth)/utils/auth-util";

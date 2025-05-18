@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { refreshToken as refreshAccessToken } from "@/app/(auth)/service/authService";
+import { access } from "fs";
 
 const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -9,20 +10,10 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor: attach access token
-api.interceptors.request.use((config) => {
-  const accessToken = Cookies.get("accessToken");
-  if (accessToken) {
-    config.headers = config.headers || {};
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-  return config;
-});
-
-// Response interceptor: handle token renewal and 401
 api.interceptors.response.use(
   (response) => {
     // If backend sends a new access token, update cookie
+    console.log("RESPONSE", response)
     if (response.data && response.data.accessToken) {
       Cookies.set("accessToken", response.data.accessToken, { path: "/", secure: true, sameSite: "strict" });
     }
@@ -30,15 +21,23 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    console.log("HELLOOO 4")
     // If 401 and not already retried
+    console.log(error)
+    // console.log("error res", error.response)
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    // if(error){
+    console.log("HELLOOO3")
       originalRequest._retry = true;
       try {
-        await refreshAccessToken(); // This should update the access token cookie
-        const newAccessToken = Cookies.get("accessToken");
-        if (newAccessToken) {
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        }
+        console.log("HELLOOO 2")
+        const res = await refreshAccessToken(); // This should update the access token cookie
+        console.log("Refresh response = ", res)
+
+        // const newAccessToken = Cookies.get("accessToken");
+        // if (newAccessToken) {
+        //   originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        // }
         // Retry the original request after refreshing the token
         return api(originalRequest);
       } catch (refreshError) {
@@ -50,7 +49,7 @@ api.interceptors.response.use(
 );
 
 export function loginUser() {
-  const backendLoginUrl = `${baseUrl}/login/code/oauth2/google/`;
+  const backendLoginUrl = `${baseUrl}/oauth2/authorization/google`;
   window.location.href = backendLoginUrl;
 }
 
