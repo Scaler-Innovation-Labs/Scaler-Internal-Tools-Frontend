@@ -1,6 +1,4 @@
-import Cookies from "js-cookie";
-
-export function getUserRoles(): string[] {
+const getUserRoles = (): string[] => {
   if (typeof window === "undefined") return [];
   const userStr = window.localStorage.getItem("user");
   if (!userStr) return [];
@@ -13,18 +11,37 @@ export function getUserRoles(): string[] {
   } catch {
     return [];
   }
-}
+};
 
-export function isLoggedIn(): boolean {
+const isLoggedIn = (): boolean => {
   if (typeof window === "undefined") return false;
   const userStr = window.localStorage.getItem("user");
   return !!userStr;
-}
+};
 
-// Example usage:
-// import axios from "axios";
-// import { withAuthHeaders } from "@/app/(auth)/utils/auth-util";
-//
-// axios.get("/api/protected", withAuthHeaders())
-//   .then(res => { /* handle response */ })
-//   .catch(err => { /* handle error */ });
+const getCurrentUser = () => {
+  if (typeof window === "undefined") return null;
+  const userStr = window.localStorage.getItem("user");
+  return userStr ? JSON.parse(userStr) : null;
+};
+
+const getCurrentUserEmail = (): string | null => {
+  if (typeof window === "undefined") return null;
+  const userStr = window.localStorage.getItem("user");
+  if (!userStr) return null;
+  try {
+    const user = JSON.parse(userStr);
+    return user.email || null;
+  } catch {
+    return null;
+  }
+};
+
+const AuthUtil = {
+  getUserRoles,
+  isLoggedIn,
+  getCurrentUser,
+  getCurrentUserEmail,
+};
+
+export default AuthUtil;

@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Management system for Scaler School of Technology",
 };
 
+console.log("HELLO FROM LAYOUT ROOT")
+
 export default function RootLayout({
   children,
 }: {

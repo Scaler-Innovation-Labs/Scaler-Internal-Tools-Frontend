@@ -5,9 +5,8 @@ import { Search, Bell, ChevronDown, AlertCircle, Eye, CheckCircle, Wrench as Too
 import Link from "next/link";
 import { AnnouncementCard, Announcement } from "@/components/dashboard/AnnouncementCard";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import UserDetails from "@/components/dashboard/UserDetails";
-import api from "@/context/authApi";
+import AuthContextApi from "@/app/(auth)/context/auth-context"
 // Mock data
 const announcements: Announcement[] = [
   {
@@ -397,22 +396,6 @@ export default function DashboardPage() {
   const isDark = theme === "dark";
   const [itemType, setItemType] = useState<"lost" | "found">("lost");
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
-    useEffect(() => {
-    async function fetchAnnouncements() {
-        try {
-           const token = Cookies.get("accessToken");
-            await api.get("/api/announcements", {
-            // headers: {
-            //     Authorization: `Bearer ${token}`,
-            // },
-            });
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    fetchAnnouncements();
-    }, []);
   
   // Filter lost and found items based on the selected type
   const filteredItems = lostAndFoundItems.filter(item => 
@@ -441,7 +424,8 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    
+    const user = AuthContextApi.getUserUsingAccessToken();
+    AuthContextApi.userLoginSuccessful(user);
   }, []);
   
   return (
