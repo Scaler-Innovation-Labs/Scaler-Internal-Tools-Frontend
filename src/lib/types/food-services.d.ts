@@ -9,6 +9,7 @@ export interface VendorResponseDto {
 }
 
 export interface VendorSummaryDto {
+  vendorId: number;
   vendorName: string;
 }
 
@@ -33,6 +34,7 @@ export interface VendorPlanResponseDto {
 }
 
 export interface VendorPlanSummaryDto {
+  vendorPlanId: number;
   planName: string;
   vendorName: string;
   fee: number;
@@ -48,7 +50,7 @@ export interface VendorPlanUpdateDto {
 export interface VendorPlanSelectionCreateDto {
   vendorPlanId: number;
   userId: number;
-  selectedMonth: string;
+  selectedMonth: string; // Should be in yyyy-MM-dd format (e.g., "2025-06-01")
 }
 
 export interface VendorPlanSelectionResponseDto {
@@ -99,4 +101,21 @@ export interface UserPlanSelection {
 export interface MessFeedbackSubmission {
   rating: number;
   additionalFeedback?: string;
+}
+
+// For Mess Opt-In Form
+export interface MessOptInFormData {
+  isOptedIn: boolean;
+  vendorId: number;
+  vendorPlanId: number;
+  dietPreference: 'Veg' | 'Non Veg' | 'Egg';
+  totalAmount: number;
+}
+
+export interface MessVendorPlan {
+  id: number;
+  vendorName: string;
+  planName: string;
+  mealDescription: string;
+  price: number;
 } 

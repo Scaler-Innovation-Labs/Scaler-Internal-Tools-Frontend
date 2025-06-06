@@ -11,27 +11,47 @@ import type {
   VendorPlanSelectionResponseDto,
   VendorPlanSelectionSummaryDto,
   VendorPlanSelectionUpdateDto,
-  
+  MessVendorPlan
 } from '../types/food-services.d';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api'; 
 async function fetchApi(endpoint: string, options?: RequestInit) {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  console.log('DEBUG: fetchApi called with endpoint:', endpoint);
+  console.log('DEBUG: fetchApi called with options:', JSON.stringify(options, null, 2));
+  
+  const url = `${API_BASE_URL}${endpoint}`;
+  console.log('DEBUG: Full URL:', url);
+  
+  if (options?.body) {
+    console.log('DEBUG: Request body:', options.body);
+  }
+  
+  const response = await fetch(url, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-    
       ...options?.headers,
     },
   });
+  
+  console.log('DEBUG: Response status:', response.status);
+  console.log('DEBUG: Response statusText:', response.statusText);
+  
   if (!response.ok) {
-    
+    const errorText = await response.text();
+    console.log('DEBUG: Error response body:', errorText);
     throw new Error(`API call failed: ${response.statusText}`);
   }
   if (response.status === 204) {
     return null;
   }
+  // Parse JSON if content-type is JSON, otherwise return plain text
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
   return response.json();
+  } else {
+    return response.text();
+  }
 }
 
 
@@ -147,6 +167,7 @@ export async function getUserVendorPlanSelectionByUserId(userId: number): Promis
 
 // POST /mess/vendorPlanSelection/create
 export async function createUserVendorPlanSelection(data: VendorPlanSelectionCreateDto): Promise<VendorPlanSelectionResponseDto> {
+  console.log('DEBUG: API function called with data:', JSON.stringify(data, null, 2));
   return fetchApi('/mess/vendorPlanSelection/create', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -166,4 +187,24 @@ export async function deleteUserVendorPlanSelection(id: number): Promise<string>
   return fetchApi(`/mess/vendorPlanSelection/delete/${id}`, {
     method: 'DELETE',
   });
+}
+
+// GET /mess/admin/vendorPlan/fetchAll - Available plans for users to select from
+export async function getAvailableMessPlans(): Promise<MessVendorPlan[]> {
+  try {
+    const vendorPlans: VendorPlanSummaryDto[] = await fetchApi('/mess/admin/vendorPlan/fetchAll');
+    
+    // Map VendorPlanSummaryDto to MessVendorPlan format
+    return vendorPlans.map(plan => ({
+      id: plan.vendorPlanId,
+      vendorName: plan.vendorName,
+      planName: plan.planName,
+      mealDescription: plan.mealTypes.join(', '),
+      price: plan.fee
+    }));
+  } catch (error) {
+    console.error('Failed to fetch vendor plans:', error);
+    // Fallback to empty array instead of mocked data
+    return [];
+  }
 }

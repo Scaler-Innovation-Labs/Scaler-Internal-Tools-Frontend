@@ -13,11 +13,16 @@ export function QuickStats({ data }: QuickStatsProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [selectedType, setSelectedType] = useState<string>(data.mealTypes[0] || '');
-  const words = data.vendorName.split(' ');
+  // Guard against missing data
+  if (!data || !Array.isArray(data.mealTypes)) {
+    return null;
+  }
+
+  const [selectedType, setSelectedType] = useState<string>(data.mealTypes[0] ?? '');
+  const words = data.vendorName ? data.vendorName.split(' ') : [];
   const initials = words.length > 1
     ? `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase()
-    : data.vendorName.slice(0, 2).toUpperCase();
+    : (data.vendorName ? data.vendorName.slice(0, 2) : '').toUpperCase();
 
   return (
     <div className={`p-4 rounded-3xl shadow-2xl ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
